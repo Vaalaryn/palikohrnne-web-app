@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+@section Styles {
+    <link href="~/css/ressource-list.css" rel="stylesheet" />
+    <link href="~/css/like-button.css" rel="stylesheet" />
+}
+@section Scripts{
+}
+<div class="title-box">
+    <h1>Dernières ressources</h1>
+    <div class="title-box-filters">
+        <span class="nb-ressources">1 200 ressources</span>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-primary">Récents</button>
+            <button type="button" class="btn btn-primary">Actifs</button>
+            <button type="button" class="btn btn-primary">Sans réponse</button>
+        </div>
+    </div>
+</div>
+
+<div class="ressource-list">
+    <div class="ressource-box">
+        <div class="ressource-social">
+            <div class="like">
+                <div class="heart heart-fixed"></div>
+                <span class="nb-likes">100</span>
+            </div>
+            <div class="comment">
+                <i class="fas fa-comment-alt"></i>
+                <span class="nb-likes">100</span>
+            </div>
+        </div>
+        <div class="ressource-content">
+            <h3 class="ressource-title"><a href="#">Titre de l'article</a></h3>
+            <p class="ressource-text">
+                Lorem ipsum dolor sit amet,
+                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+                esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+                cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+                id est laborum.
+            </p>
+        </div>
+    </div>
+</div>

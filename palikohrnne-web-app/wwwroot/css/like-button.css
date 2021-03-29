@@ -1,0 +1,35 @@
+﻿.heart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    width: 30px;
+    height: 30px;
+    background-image: url(https://cssanimation.rocks/images/posts/steps/heart.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+    .heart span {
+        display: block;
+    }
+
+    .heart.heart-active {
+        animation: fave-heart 1s steps(28);
+        background-position: -2800px 0;
+        transition: background 1s steps(28);
+    }
+
+.heart-fixed {
+    background-position: -2835px -35px;
+}
+
+@keyframes fave-heart {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: -2800px 0;
+    }
+}
