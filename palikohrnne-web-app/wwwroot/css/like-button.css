@@ -1,35 +1,40 @@
-﻿.heart {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    width: 30px;
-    height: 30px;
-    background-image: url(https://cssanimation.rocks/images/posts/steps/heart.png);
-    background-repeat: no-repeat;
+﻿.button {
+    background: none;
     cursor: pointer;
+    transition: background 0.5s ease;
 }
 
-    .heart span {
-        display: block;
+    .button:hover {
     }
 
-    .heart.heart-active {
-        animation: fave-heart 1s steps(28);
-        background-position: -2800px 0;
-        transition: background 1s steps(28);
-    }
-
-.heart-fixed {
-    background-position: -2835px -35px;
+.active.heart:before, .active.heart:after {
+    background: red !important;
 }
 
-@keyframes fave-heart {
-    0% {
-        background-position: 0 0;
+.heart {
+    position: relative;
+    width: 25px;
+    height: 15px;
+    transition: background 0.5s ease;
+}
+
+    .heart:before,
+    .heart:after {
+        transition: background 0.5s ease;
+        position: absolute;
+        content: "";
+        left: 13px;
+        top: 0;
+        width: 13px;
+        height: 19px;
+        background: dimgrey;
+        border-radius: 50px 50px 0 0;
+        transform: rotate(-45deg);
+        transform-origin: 0 100%;
     }
 
-    100% {
-        background-position: -2800px 0;
+    .heart:after {
+        left: 0;
+        transform: rotate(45deg);
+        transform-origin: 100% 100%;
     }
-}

@@ -3,6 +3,7 @@
     ViewData["Title"] = "Index";
 }
 @section Styles {
+    <link href="~/css/like-button.css" rel="stylesheet" />
     <link href="~/css/ressource-list.css" rel="stylesheet" />
     <link href="~/css/like-button.css" rel="stylesheet" />
 }
@@ -24,7 +25,7 @@
     <div class="ressource-box">
         <div class="ressource-social">
             <div class="like">
-                <div class="heart heart-fixed"></div>
+                <div class='button active heart'></div>
                 <span class="nb-likes">100</span>
             </div>
             <div class="comment">
@@ -33,7 +34,7 @@
             </div>
         </div>
         <div class="ressource-content">
-            <h3 class="ressource-title"><a href="#">Titre de l'article</a></h3>
+            <h3 class="ressource-title"><a asp-action="Details">Titre de l'article</a></h3>
             <p class="ressource-text">
                 Lorem ipsum dolor sit amet,
                 consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
@@ -44,6 +45,11 @@
                 cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
                 id est laborum.
             </p>
+            <div class="tags">
+                <span class="badge badge-primary">Santé</span>
+                <span class="badge badge-primary">Information</span>
+                <span class="badge badge-primary">Prévention</span>
+            </div>
         </div>
     </div>
 </div>
