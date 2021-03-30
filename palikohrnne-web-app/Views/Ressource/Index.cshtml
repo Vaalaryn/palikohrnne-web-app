@@ -8,11 +8,6 @@
     <link href="~/css/like-button.css" rel="stylesheet" />
 }
 @section Scripts{
-    <script>
-        $(".heart").on("click", () => {
-            //$(".heart").toggleClass("heart-active")
-        })
-    </script>
 }
 <div class="title-box">
     <h1>Dernières ressources</h1>
@@ -40,7 +35,7 @@
         </div>
         <div class="ressource-content">
             <h3 class="ressource-title"><a asp-action="Details">Titre de l'article</a></h3>
-            <p class="ressource-text">
+            <p class="ressource-text" style="height: 50px;">
                 Lorem ipsum dolor sit amet,
                 consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                 labore et dolore magna aliqua. Ut enim ad minim veniam,

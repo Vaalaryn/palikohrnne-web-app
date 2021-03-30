@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "simditor@2.3.28",
+      "destination": "wwwroot/lib/simditor/"
+    }
+  ]
+}
