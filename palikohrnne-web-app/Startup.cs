@@ -24,6 +24,7 @@ namespace palikohrnne_web_app
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            System.Diagnostics.Debug.WriteLine("http://localhost:46161");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

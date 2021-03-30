@@ -12,5 +12,10 @@ namespace palikohrnne_web_app.Controllers
         {
             return View();
         }
+
+        public IActionResult Details()
+        {
+            return View();
+        }
     }
 }

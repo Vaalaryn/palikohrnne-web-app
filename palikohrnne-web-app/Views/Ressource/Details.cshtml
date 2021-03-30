@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewData["Title"] = "Details";
+}
+@section Styles{
+    <link href="~/css/ressource-list.css" rel="stylesheet" />
+    <link href="~/css/like-button.css" rel="stylesheet" />
+    <link href="~/css/ressource.css" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="~/js/like-button.js"></script>
+}
+<h1>Titre de l'article</h1>
+
+<div class="informations">
+    <div>
+        <span>Publié</span>
+        <strong>Aujourd'hui</strong>
+    </div>
+    <div>
+        <span>Dernière activité</span>
+        <strong>Aujourd'hui</strong>
+    </div>
+    <div>
+        <span>Nombre de vues</span>
+        <strong>4</strong>
+    </div>
+</div>
+<div class="ressource-box">
+    <div class="ressource-social">
+        <div class="like">
+            <div class='button heart'></div>
+            <span class="nb-likes">100</span>
+        </div>
+    </div>
+    <div class="ressource-content">
+        <p class="ressource-text">
+            Lorem ipsum dolor sit amet,
+            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+            labore et dolore magna aliqua. Ut enim ad minim veniam,
+            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+            consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+            esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
+            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
+            id est laborum.
+        </p>
+        <div class="tags">
+            <span class="badge badge-primary">Santé</span>
+            <span class="badge badge-primary">Information</span>
+            <span class="badge badge-primary">Prévention</span>
+        </div>
+    </div>
+</div>
