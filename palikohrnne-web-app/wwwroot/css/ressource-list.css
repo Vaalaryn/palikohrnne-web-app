@@ -39,6 +39,7 @@
     flex-direction: column;
     align-items: center;
 }
+/*/COMMENT BUTTON ---------------------------------------*/
 
 
 /*CONTENT*/
@@ -46,11 +47,14 @@
 .ressource-text{
     height:50px;
     overflow:hidden;
-}
+    }
 
 .tags{
     padding-bottom:10px;
 }
+/*/LIKE BUTTON ---------------------------------------*/
 
 
+.ressource-text{
 
+}
