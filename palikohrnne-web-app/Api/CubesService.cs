@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -17,7 +18,8 @@ namespace palikohrnne_web_app.Api
 
         public CubesService(HttpClient client)
         {
-            client.BaseAddress = new Uri("http://palikorne.brice-bitot.fr/");
+            //client.BaseAddress = new Uri("http://palikorne.brice-bitot.fr/");
+            client.BaseAddress = new Uri("http://localhost:8080/");
             Client = client;
         }
 
@@ -33,6 +35,30 @@ namespace palikohrnne_web_app.Api
             string text = reader.ReadToEnd();
             var rangs = JObject.Parse(text).SelectToken("data").ToString();
             return JsonConvert.DeserializeObject<IEnumerable<Rang>>(rangs);
+        }
+
+        public async Task<IEnumerable<Citoyen>> GetAllCitoyens()
+        {
+            var response = await Client.GetAsync(
+                "/citoyens");
+
+            response.EnsureSuccessStatusCode();
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            StreamReader reader = new StreamReader(responseStream);
+            string text = reader.ReadToEnd();
+            var citoyens = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<IEnumerable<Citoyen>>(citoyens);
+        }
+
+        public async Task CreateCitoyen(Citoyen citoyen)
+        {
+            var citoyenJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(citoyen),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PostAsync("/citoyens", citoyenJson);
+            httpResponse.EnsureSuccessStatusCode();
         }
     }
 }
