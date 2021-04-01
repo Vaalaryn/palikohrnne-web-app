@@ -60,5 +60,11 @@ namespace palikohrnne_web_app.Api
             using var httpResponse = await Client.PostAsync("/citoyens", citoyenJson);
             httpResponse.EnsureSuccessStatusCode();
         }
+
+        public async Task DeleteCitoyen(int id)
+        {
+            using var httpResponse = await Client.DeleteAsync("/citoyens/2");
+            httpResponse.EnsureSuccessStatusCode();
+        }
     }
 }
