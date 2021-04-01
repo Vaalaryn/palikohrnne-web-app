@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace palikohrnne_web_app.Models
 {
-    public class Citoyen
+    public class CitoyenModel
     {
-        public Citoyen(JToken item)
+        public CitoyenModel(JToken item)
         {
             ID = item["ID"].ToObject<int>();
             CreatedAt = item["CreatedAt"].ToObject<DateTime>();
@@ -24,7 +24,7 @@ namespace palikohrnne_web_app.Models
             Prenom = item["Prenom"].ToObject<string>();
             Pseudo = item["Pseudo"].ToObject<string>();
             Telephone = item["Telephone"].ToObject<string>();
-            RangId = item["RangId"].ToObject<int>();
+            RangId = item["RangID"].ToObject<int>();
         }
 
         public int ID { get; set; }
