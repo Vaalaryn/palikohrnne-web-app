@@ -1,4 +1,5 @@
-﻿@model palikohrnne_web_app.Models.CitoyenModel
+﻿@model palikohrnne_web_app.Models.Citoyen
+@using palikohrnne_web_app.Api
 
 @{
     ViewData["Title"] = "Register";
@@ -12,6 +13,15 @@
     <div class="col-md-4">
         <form asp-action="Register">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <!--<div class="form-group">
+        <input asp-for="ID" class="form-control" type="hidden" value="@(ApiCube.GetCitoyens().Result.Count + 1)" />
+    </div>
+    <div class="form-group">
+        <input asp-for="CreatedAt" class="form-control" type="hidden" value="@DateTime.Now" />
+    </div>
+    <div class="form-group">
+        <input asp-for="UpdatedAt" class="form-control" type="hidden" value="@DateTime.Now" />
+    </div>-->
             <div class="form-group">
                 <label asp-for="Adresse" class="control-label"></label>
                 <input asp-for="Adresse" class="form-control" />
@@ -58,9 +68,14 @@
                 <span asp-validation-for="Telephone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="RangId" class="control-label"></label>
-                <input asp-for="RangId" class="form-control" />
-                <span asp-validation-for="RangId" class="text-danger"></span>
+                <label asp-for="Ville" class="control-label"></label>
+                <input asp-for="Ville" class="form-control" />
+                <span asp-validation-for="Ville" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RangID" class="control-label"></label>
+                <input asp-for="RangID" class="form-control" />
+                <span asp-validation-for="RangID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

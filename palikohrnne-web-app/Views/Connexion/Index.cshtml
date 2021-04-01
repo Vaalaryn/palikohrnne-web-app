@@ -1,4 +1,4 @@
-﻿@model IEnumerable<palikohrnne_web_app.Models.CitoyenModel>
+﻿@model IEnumerable<palikohrnne_web_app.Models.Citoyen>
 
 @{
     ViewBag.Title = "Index";
@@ -19,29 +19,33 @@
         <th>Prenom</th>
         <th>Pseudo</th>
         <th>Telephone</th>
+        <th>Ville</th>
         <th>RangId</th>
+        <th>Ressource</th>
     </tr>
 
     @foreach (var d in Model)
     {
 
-        <tr>
-            <td>@d.ID</td>
-            <td>@d.CreatedAt</td>
-            <td>@d.UpdatedAt</td>
-            <td>@d.DeletedAt</td>
-            <td>@d.Adresse</td>
-            <td>@d.CodePostal</td>
-            <td>@d.Genre</td>
-            <td>@d.Mail</td>
-            <td>@d.MotDePasse</td>
-            <td>@d.Nom</td>
-            <td>@d.Prenom</td>
-            <td>@d.Pseudo</td>
-            <td>@d.Telephone</td>
-            <td>@d.RangId</td>
+<tr>
+    <td>@d.ID</td>
+    <td>@d.CreatedAt</td>
+    <td>@d.UpdatedAt</td>
+    <td>@d.DeletedAt</td>
+    <td>@d.Adresse</td>
+    <td>@d.CodePostal</td>
+    <td>@d.Genre</td>
+    <td>@d.Mail</td>
+    <td>@d.MotDePasse</td>
+    <td>@d.Nom</td>
+    <td>@d.Prenom</td>
+    <td>@d.Pseudo</td>
+    <td>@d.Telephone</td>
+    <td>@d.Ville</td>
+    <td>@d.RangID</td>
+    <td>@d.Ressource</td>
 
-        </tr>
+</tr>
 
     }
 </table> 

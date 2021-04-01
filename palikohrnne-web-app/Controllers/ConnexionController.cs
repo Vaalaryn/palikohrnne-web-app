@@ -13,7 +13,7 @@ namespace palikohrnne_web_app.Controllers
         
         public IActionResult Index()
         {
-            List<CitoyenModel> citoyens = ApiCube.GetCitoyens().Result;
+            List<Citoyen> citoyens = ApiCube.GetCitoyens().Result;
             return View(citoyens);
         }
 
@@ -24,8 +24,15 @@ namespace palikohrnne_web_app.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Register(CitoyenModel obj)
+        public async Task<IActionResult> RegisterAsync(Citoyen obj)
         {
+            obj.ID = ApiCube.GetCitoyens().Result.Count + 1;
+            obj.CreatedAt = DateTime.Now;
+            obj.UpdatedAt = DateTime.Now;
+            obj.DeletedAt = null;
+            obj.Rang = ApiCube.GetRang(obj.RangID).Result;
+            obj.Ressource = null;
+            await ApiCube.PostCitoyen(obj);
             return View();
         }
 

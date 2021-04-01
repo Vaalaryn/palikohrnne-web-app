@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using palikohrnne_web_app.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace palikohrnne_web_app.Api
@@ -48,23 +50,67 @@ namespace palikohrnne_web_app.Api
 
         //CITOYEN --------------
         #region
-        public static async Task<List<CitoyenModel>> GetCitoyens()
+        public static async Task<List<Citoyen>> GetCitoyens()
         {
-            List<CitoyenModel> citoyens = new List<CitoyenModel>();
+            List<Citoyen> citoyens = new List<Citoyen>();
 
             var result = await CallApi("citoyens");
 
             JArray resultStr = JArray.Parse(result.ToString());
             foreach (var item in result)
             {
-                citoyens.Add(new CitoyenModel(item));
+                citoyens.Add(new Citoyen(item));
             }
             return citoyens;
         }
 
-        public static async Task<CitoyenModel> GetCitoyen(int id)
+        public static async Task<Citoyen> GetCitoyen(int id)
         {
-            return new CitoyenModel(await CallApi("citoyens", id));
+            return new Citoyen(await CallApi("citoyens", id));
+        }
+
+        public static async Task PostCitoyen(Citoyen citoyen)
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    string stringCitoyen = JsonConvert.SerializeObject(citoyen);
+
+                    using (HttpContent httpContent = new StringContent(stringCitoyen, Encoding.UTF8, "application/json"))
+                    {
+                        using (HttpResponseMessage res = await client.PostAsync(baseUrl, httpContent))
+                        {
+                            var responseContent = await res.Content.ReadAsStringAsync();
+                        }
+
+                    }
+                }
+            }
+            catch { }
+        }
+        #endregion
+        //-------------------
+
+        //RANG --------------
+        #region
+        public static async Task<List<Rang>> GetRangs()
+        {
+            List<Rang> rangs = new List<Rang>();
+
+            var result = await CallApi("rangs");
+
+            JArray resultStr = JArray.Parse(result.ToString());
+            foreach (var item in result)
+            {
+                rangs.Add(new Rang(item));
+            }
+            return rangs;
+        }
+
+        public static async Task<Rang> GetRang(int id)
+        {
+            return new Rang(await CallApi("rangs", id));
         }
         #endregion
         //-------------------
