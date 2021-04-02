@@ -37,6 +37,8 @@ namespace palikohrnne_web_app.Api
             return JsonConvert.DeserializeObject<IEnumerable<Rang>>(rangs);
         }
 
+        //Citoyens
+        #region
         public async Task<IEnumerable<Citoyen>> GetAllCitoyens()
         {
             var response = await Client.GetAsync(
@@ -66,5 +68,42 @@ namespace palikohrnne_web_app.Api
             using var httpResponse = await Client.DeleteAsync("/citoyens/2");
             httpResponse.EnsureSuccessStatusCode();
         }
+        #endregion
+
+        public async Task<IEnumerable<Ressource>> GetAllRessources()
+        {
+            var response = await Client.GetAsync(
+                "/ressources");
+
+            response.EnsureSuccessStatusCode();
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            StreamReader reader = new StreamReader(responseStream);
+            string text = reader.ReadToEnd();
+            var ressources = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<IEnumerable<Ressource>>(ressources);
+        }
+
+        public async Task CreateRessource(Ressource ressource)
+        {
+            var ressourceJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(ressource),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PostAsync("/ressources", ressourceJson);
+            httpResponse.EnsureSuccessStatusCode();
+        }
+
+
+        public async Task CreateTypeRelation(TypeRelation typeRelation)
+        {
+            var typeRelationJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(typeRelation),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PostAsync("/typeRelations", typeRelationJson);
+            httpResponse.EnsureSuccessStatusCode();
+        }
+
     }
 }
