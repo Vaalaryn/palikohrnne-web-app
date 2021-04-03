@@ -19,21 +19,9 @@ namespace palikohrnne_web_app.Controllers
             _cubesService = cubesService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            await _cubesService.CreateTypeRelation(new TypeRelation { 
-                Nom = "Relation"
-            });
-            //_cubesService.CreateRessource(new Ressource
-            //{
-            //    Titre = "Nouvelle ressource",
-            //    Contenu = "Bla bla c'est pas intéressant",
-            //    CitoyenID = 1,
-            //    TypeRelationID = 1
-
-            //});
-            //var result = await _cubesService.GetAllRessources();
-            return View();
+            return RedirectToAction("Index","ExempleCrud");
         }
 
         public IActionResult Privacy()
