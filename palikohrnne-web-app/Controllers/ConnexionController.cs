@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using palikohrnne_web_app.Api;
 using palikohrnne_web_app.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,10 +12,17 @@ namespace palikohrnne_web_app.Controllers
 {
     public class ConnexionController : Controller
     {
-        
-        public IActionResult Index()
+
+        private readonly CubesService _cubesService;
+
+        public ConnexionController(CubesService cubesService)
         {
-            List<Citoyen> citoyens = ApiCube.GetCitoyens().Result;
+            _cubesService = cubesService;
+        }
+        
+        public async Task<IActionResult> IndexAsync()
+        {
+            var citoyens = await _cubesService.GetAllCitoyens();
             return View(citoyens);
         }
 
@@ -26,13 +35,8 @@ namespace palikohrnne_web_app.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAsync(Citoyen obj)
         {
-            obj.ID = ApiCube.GetCitoyens().Result.Count + 1;
-            obj.CreatedAt = DateTime.Now;
-            obj.UpdatedAt = DateTime.Now;
-            obj.DeletedAt = null;
-            obj.Rang = ApiCube.GetRang(obj.RangID).Result;
-            obj.Ressource = null;
-            await ApiCube.PostCitoyen(obj);
+            
+            await _cubesService.CreateCitoyen(obj);
             return View();
         }
 
