@@ -60,5 +60,14 @@
 /*/LIKE BUTTON ---------------------------------------*/
 
 
-.ressource-text {
+.ressource-content {
+    width: 100%;
+   margin-bottom: 20px;
 }
+    .ressource-content .auteur {
+        width: 300px;
+        margin-left: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
