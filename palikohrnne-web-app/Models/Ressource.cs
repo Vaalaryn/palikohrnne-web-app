@@ -19,5 +19,6 @@ namespace palikohrnne_web_app.Models
         public int TypeRessourceID { get; set; }
         public int TypeRelationID { get; set; }
         public int CitoyenID { get; set; }
+        public Citoyen Citoyen { get; set; }
     }
 }

@@ -9,7 +9,9 @@
 .informations div{
     margin-right: 20px;
 }
-
+.ressource-content{
+    width: 100%;
+}
 
 .auteur {
     display: flex;

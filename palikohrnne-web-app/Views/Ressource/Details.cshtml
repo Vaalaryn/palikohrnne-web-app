@@ -1,4 +1,4 @@
-﻿
+﻿@model Ressource 
 @{
     ViewData["Title"] = "Details";
 }
@@ -24,39 +24,32 @@
 
     </script>
 }
-<h1>Titre de l'article</h1>
+<h1>@Model.Titre</h1>
 
 <div class="informations">
     <div>
         <span>Publié</span>
-        <strong>Aujourd'hui</strong>
+        <strong>@Model.UpdatedAt.ToUniversalTime().Humanize()</strong>
     </div>
     <div>
         <span>Dernière activité</span>
-        <strong>Aujourd'hui</strong>
+        <strong>@Model.UpdatedAt.ToUniversalTime().Humanize()</strong>
     </div>
     <div>
         <span>Nombre de vues</span>
-        <strong>4</strong>
+        <strong>@Model.Vues</strong>
     </div>
 </div>
 <div class="ressource-box">
     <div class="ressource-social">
         <div class="like">
             <div class='button heart'></div>
-            <span class="nb-likes">100</span>
+            <span class="nb-likes">@Model.Votes</span>
         </div>
     </div>
-    <div class="ressource-content">
+    <div class="ressource-content" >
         <p class="ressource-text">
-            Lorem ipsum dolor sit amet,
-            consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-            labore et dolore magna aliqua. Ut enim ad minim veniam,
-            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-            esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-            cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-            id est laborum.
+            @Model.Contenu
         </p>
         <div class="tags">
             <span class="badge badge-primary">Santé</span>
@@ -65,11 +58,11 @@
         </div>
         <div class="auteur">
             <div class="ressource-auteur-info">
-                <span>Rédigé le 29 mars 2021 10:40</span>
+                <span>Rédigé le @Model.CreatedAt.ToString("dd MMMM yyyy à hh:mm")</span>
             </div>
             <div class="auteur-info">
                 <img width="25" height="25" src="https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg" alt="Alternate Text" />
-                <a href="#">Valentin Beaury</a>
+                <a href="#">@Model.Citoyen.Prenom @Model.Citoyen.Prenom</a>
             </div>
             
         </div>

@@ -21,7 +21,7 @@ namespace palikohrnne_web_app.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToAction("Index","ExempleCrud");
+            return View();
         }
 
         public IActionResult Privacy()
