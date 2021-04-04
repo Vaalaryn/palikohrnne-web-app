@@ -21,34 +21,6 @@ namespace palikohrnne_web_app.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //Ajouter un citoyen
-            //await _cubesService.CreateCitoyen(new Citoyen
-            //{
-            //    Adresse = "598 rue des toto",
-            //    CodePostal = "76450",
-            //    Genre = "M",
-            //    Mail = "toto@gmail.toto",
-            //    MotDePasse = "1234",
-            //    Nom = "Toto",
-            //    Prenom = "Tutu",
-            //    Pseudo = "totolerigolo",
-            //    RangID = 1,
-            //    Telephone = "025653535",
-            //    Ville = "Rouen"
-            //});
-            //Récupérer le citoyen
-
-
-            //Récupérer tous les citoyens
-            var citoyens = await _cubesService.GetAllCitoyens();
-            var ressources = await _cubesService.GetAllRessources();
-
-            await _cubesService.LikerRessource(9, 3);
-            await _cubesService.LikerCommentaire(9, 1);
-            await _cubesService.DeleteLikeCommentaire(9, 1);
-            await _cubesService.DeleteLikeRessource(9, 3);
-            //Supprimer le citoyen
-            //await _cubesService.DeleteCitoyen(5);
 
             return View();
         }

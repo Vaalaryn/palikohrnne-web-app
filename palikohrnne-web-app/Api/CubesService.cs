@@ -353,5 +353,46 @@ namespace palikohrnne_web_app.Api
             using var httpResponse = await Client.DeleteAsync("/voteRessources/" + idCitoyen + "/" + idRessource);
         }
         #endregion
+
+        //Tags
+        #region
+        public async Task<IEnumerable<Tag>> GetAllTags()
+        {
+            var response = await Client.GetAsync(
+                "/tags");
+
+            response.EnsureSuccessStatusCode();
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+            var tags = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<IEnumerable<Tag>>(tags);
+        }
+
+        public async Task<Tag> GetTagById(int id)
+        {
+            var response = await Client.GetAsync(
+                "/tags/" + id);
+
+            response.EnsureSuccessStatusCode();
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+            var tag = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<Tag>(tag);
+        }
+
+        public async Task CreateTag(Tag tag)
+        {
+            var rangJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new { tag.Nom }),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PostAsync("/tags", rangJson);
+            httpResponse.EnsureSuccessStatusCode();
+        }
+        #endregion
     }
 }
