@@ -254,5 +254,104 @@ namespace palikohrnne_web_app.Api
             httpResponse.EnsureSuccessStatusCode();
         }
         #endregion
+
+        //Commentaires
+        #region
+        public async Task<IEnumerable<Commentaire>> GetAllCommentaires()
+        {
+            var response = await Client.GetAsync(
+                "/commentaires");
+
+            response.EnsureSuccessStatusCode();
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+            var commentaires = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<IEnumerable<Commentaire>>(commentaires);
+        }
+
+        public async Task<Commentaire> GetCommentaireById(int id)
+        {
+            var response = await Client.GetAsync(
+                "/commentaires/" + id);
+
+            response.EnsureSuccessStatusCode();
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+            var commentaire = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<Commentaire>(commentaire);
+        }
+
+        public async Task CreateCommentaire(Commentaire commentaire)
+        {
+            var typeRessourceJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                commentaire.RessourceID,
+                commentaire.CitoyenID,
+                commentaire.Contenu
+            }),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PostAsync("/commentaires", typeRessourceJson);
+            httpResponse.EnsureSuccessStatusCode();
+        }
+        public async Task DeleteCommentaire(int id)
+        {
+            using var httpResponse = await Client.DeleteAsync("/commentaires/" + id);
+            httpResponse.EnsureSuccessStatusCode();
+        }
+        #endregion
+
+        //Votes
+        #region
+        /// <summary>
+        /// Ajoute un vote à la ressource cible
+        /// </summary>
+        /// <param name="idCitoyen"></param>
+        /// <param name="idRessource"></param>
+        /// <returns></returns>
+        public async Task LikerRessource(int idCitoyen, int idRessource)
+        {
+            var likeRessourceJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new {
+                CitoyenID = idCitoyen,
+                RessourceID = idRessource
+            }),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PostAsync("/voteRessources", likeRessourceJson);
+        }
+        /// <summary>
+        /// Ajoute un vote au commentaire cible
+        /// </summary>
+        /// <param name="idCitoyen"></param>
+        /// <param name="idCommentaire"></param>
+        /// <returns></returns>
+        public async Task LikerCommentaire(int idCitoyen, int idCommentaire)
+        {
+            var likeCommentaireJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                CitoyenID = idCitoyen,
+                CommentaireID = idCommentaire
+            }),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PostAsync("/voteCommentaire", likeCommentaireJson);
+        }
+
+        public async Task DeleteLikeCommentaire(int idCitoyen, int idCommentaire)
+        {
+            using var httpResponse = await Client.DeleteAsync("/voteCommentaire/" + idCitoyen + "/" + idCommentaire);
+        }
+        public async Task DeleteLikeRessource(int idCitoyen, int idRessource)
+        {
+            using var httpResponse = await Client.DeleteAsync("/voteRessources/" + idCitoyen + "/" + idRessource);
+        }
+        #endregion
     }
 }
