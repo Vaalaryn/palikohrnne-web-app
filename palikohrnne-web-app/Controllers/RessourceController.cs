@@ -26,6 +26,11 @@ namespace palikohrnne_web_app.Controllers
             return View(await _cubeService.GetRessourceById(id));
         }
 
+        public IActionResult PublierRessource()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> CommenterRessource(Commentaire commentaire)
         {

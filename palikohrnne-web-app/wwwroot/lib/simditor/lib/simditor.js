@@ -1,3 +1,8 @@
+/*!
+* Simditor v2.3.27
+* http://simditor.tower.im/
+* 2019-08-15
+*/
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module unless amdModuleId is set

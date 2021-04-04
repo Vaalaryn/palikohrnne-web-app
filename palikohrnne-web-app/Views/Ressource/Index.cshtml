@@ -6,17 +6,19 @@
     <link href="~/css/like-button.css" rel="stylesheet" />
     <link href="~/css/ressource-list.css" rel="stylesheet" />
     <link href="~/css/like-button.css" rel="stylesheet" />
+
 }
 @section Scripts{
+
 }
 <div class="title-box">
-    <h1>Dernières ressources</h1>
+    <h1>Dernières ressources <a asp-action="PublierRessource" class="btn btn-primary float-right">Publier une ressource</a></h1>
     <div class="title-box-filters">
         <span class="nb-ressources">@Model.Count ressources</span>
         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-primary">Récents</button>
-            <button type="button" class="btn btn-primary">Actifs</button>
-            <button type="button" class="btn btn-primary">Sans réponse</button>
+            <button type="button" class="btn btn-secondary">Récents</button>
+            <button type="button" class="btn btn-secondary">Actifs</button>
+            <button type="button" class="btn btn-secondary">Sans réponse</button>
         </div>
     </div>
 </div>
