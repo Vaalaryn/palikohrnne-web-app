@@ -1,6 +1,9 @@
-﻿@model Ressource 
+﻿@model Ressource
 @{
     ViewData["Title"] = "Details";
+    int idCitoyenConnected = 1; //TODO: Récupérer le citoyen connecté
+
+    bool citoyenLikedThisRessource = Model.CitoyenVoted.Where(x => x.ID == idCitoyenConnected).Any();
 }
 @section Styles{
     <link href="~/css/ressource-list.css" rel="stylesheet" />
@@ -26,6 +29,8 @@
 }
 <h1>@Model.Titre</h1>
 
+<input type="hidden" id="idCitoyenConnected" value="@idCitoyenConnected">
+
 <div class="informations">
     <div>
         <span>Publié</span>
@@ -43,11 +48,11 @@
 <div class="ressource-box">
     <div class="ressource-social">
         <div class="like">
-            <div class='button heart'></div>
-            <span class="nb-likes">@Model.Votes</span>
+            <div data-type-like="ressource" data-id="@Model.ID"  class='button heart  @(citoyenLikedThisRessource ? "active" : "")'></div>
+            <span class="nb-likes">@Model.CitoyenVoted.Count</span>
         </div>
     </div>
-    <div class="ressource-content" >
+    <div class="ressource-content">
         <p class="ressource-text">
             @Model.Contenu
         </p>
@@ -64,41 +69,40 @@
                 <img width="25" height="25" src="https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg" alt="Alternate Text" />
                 <a href="#">@Model.Citoyen.Prenom @Model.Citoyen.Prenom</a>
             </div>
-            
+
         </div>
     </div>
 </div>
 <div class="commentaires">
-    <div class="ressource-box">
-        <div class="ressource-social">
-            <div class="like">
-                <div class='button heart'></div>
-                <span class="nb-likes">100</span>
-            </div>
-        </div>
-        <div class="ressource-content">
-            <p class="ressource-text">
-                Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqua. Ut enim ad minim veniam,
-                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-                esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                cupidatat non proident, sunt in culpa qui officia deserunt mollit anim
-                id est laborum.
-            </p>
-            <div class="auteur">
-                <div class="ressource-auteur-info">
-                    <span>Réponse le 29 mars 2021 10:57</span>
-                </div>
-                <div class="auteur-info">
-                    <img width="25" height="25" src="https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg" alt="Alternate Text" />
-                    <a href="#">Valentin Beaury</a>
-                </div>
+    @foreach (var commentaire in Model.Commentaires)
+    {
+        bool citoyenLikedThisComment = commentaire.CitoyenVoted.Where(x => x.ID == idCitoyenConnected).Any();
 
+        <div class="ressource-box">
+            <div class="ressource-social">
+                <div class="like">
+                    <div data-type-like="commentaire" data-id="@commentaire.ID" class='button heart @(citoyenLikedThisComment ? "active" : "")'></div>
+                    <span class="nb-likes">@commentaire.CitoyenVoted.Count</span>
+                </div>
+            </div>
+            <div class="ressource-content">
+                <p class="ressource-text">
+                    @commentaire.Contenu
+                </p>
+                <div class="auteur">
+                    <div class="ressource-auteur-info">
+                        <span>Réponse le 29 mars 2021 10:57</span>
+                    </div>
+                    <div class="auteur-info">
+                        <img width="25" height="25" src="https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg" alt="Alternate Text" />
+                        <a href="#">@commentaire.Citoyen.Nom</a>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
+    }
+
 </div>
 <div class="reponse">
     <h3>Commenter cette ressource</h3>

@@ -16,5 +16,9 @@ namespace palikohrnne_web_app.Models
         public int RessourceID { get; set; }
         public string Contenu { get; set; }
         public int Votes { get; set; }
+
+        //Relations 
+        public Citoyen Citoyen { get; set; } // Auteur du commentaire
+        public List<Citoyen> CitoyenVoted { get; set; } //Personnes ayant aimé le commentaire
     }
 }

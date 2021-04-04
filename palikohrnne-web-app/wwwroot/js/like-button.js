@@ -1,5 +1,37 @@
 ﻿let timelines = [];
 
+function _onBtnLikeClicked($button, saveInDb) {
+    let id = parseInt($button.attr("data-id"));
+    let $nbLikeDisplay = $button.parent().find(".nb-likes").first();
+    let nbLikes = parseInt($nbLikeDisplay.text());
+
+
+    if ($button.attr("data-type-like") == "ressource") {
+        if (saveInDb) {
+            likerRessource(1, id);
+            updateNbLikes($nbLikeDisplay, nbLikes + 1);
+        } else {
+            unlikerRessource(1, id);
+            updateNbLikes($nbLikeDisplay, nbLikes - 1);
+        }
+    } else {
+        if (saveInDb) {
+            likerCommentaire(1, id);
+            updateNbLikes($nbLikeDisplay, nbLikes + 1);
+            
+        } else {
+            unlikerCommentaire(1, id);
+            updateNbLikes($nbLikeDisplay, nbLikes - 1);
+        }
+    }
+}
+
+function updateNbLikes($cible, nbToUpdate) {
+    $cible.text(nbToUpdate);
+}
+
+
+
 $(document).ready(function () {
     $(".heart").each(function () {
         var scaleCurve = mojs.easing.path('M0,100 L25,99.9999983 C26.2328835,75.0708847 19.7847843,0 100,0');
@@ -60,14 +92,18 @@ $(document).ready(function () {
 
 
     //when clicking the button start the timeline/animation:
-    $(".button").click(function () {
+    $(".button.heart").click(function () {
         if ($(this).hasClass('active')) {
             $(this).removeClass('active');
+            //Sauvegarde via l'api
+            _onBtnLikeClicked($(this), false);
         } else {
-            console.log(timelines);
-            console.log(parseInt($(this).attr("data-index")));
-            $(this).addClass('active');
-            timelines[parseInt($(this).attr("data-index"))].play();
+            //Le commentaire a été liké
+            $(this).addClass('active'); //On active le coeur
+            timelines[parseInt($(this).attr("data-index"))].play(); // On lance l'animation
+
+            //Sauvegarde via l'api
+            _onBtnLikeClicked($(this), true);
         }
     });
 });
