@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using palikohrnne_web_app.Api;
+using palikohrnne_web_app.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,14 @@ namespace palikohrnne_web_app.Controllers
         public async Task<IActionResult> Details(int id)
         {
             return View(await _cubeService.GetRessourceById(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CommenterRessource(Commentaire commentaire)
+        {
+            await _cubeService.CreateCommentaire(commentaire);
+
+            return RedirectToAction("Details",new { id = commentaire.RessourceID});
         }
     }
 }

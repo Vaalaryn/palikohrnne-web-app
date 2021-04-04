@@ -15,10 +15,26 @@
 
 .auteur {
     display: flex;
-    align-items: flex-end;
     flex-direction: column;
     width: 300px;
     margin-left: auto;
     margin-bottom: 15px;
     padding: 5px;
+    background-color: rgb(180 191 245);
+    border-radius: 5px;
+}
+
+.reponse{
+    padding-top: 20px;
+}
+ .ressource-auteur-info{
+     margin-bottom: 5px;
+ }
+
+.filtres-commentaire{
+    margin-bottom: 9px;
+}
+
+.commentaires .ressource-box:not(:last-child) {
+    border-bottom: 1px solid lightgrey;
 }

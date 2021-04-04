@@ -13,7 +13,7 @@
 
 .ressource-box {
     padding-top: 10px;
-    border-bottom: 1px solid lightgray;
+   
     display: flex;
     flex-direction: row;
 }
@@ -69,5 +69,4 @@
         margin-left: auto;
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
     }
