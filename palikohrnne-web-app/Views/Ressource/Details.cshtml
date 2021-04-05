@@ -54,12 +54,14 @@
     </div>
     <div class="ressource-content">
         <p class="ressource-text">
-            @Model.Contenu
+            @Html.Raw(Model.Contenu)
         </p>
         <div class="tags">
-            <span class="badge badge-primary">Santé</span>
-            <span class="badge badge-primary">Information</span>
-            <span class="badge badge-primary">Prévention</span>
+            @foreach (var tag in Model.Tags)
+            {
+                <span class="badge badge-primary">@tag.Nom</span>
+            }
+
         </div>
         <div class="auteur">
             <div class="ressource-auteur-info">

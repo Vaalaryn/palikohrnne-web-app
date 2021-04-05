@@ -23,6 +23,7 @@ namespace palikohrnne_web_app.Models
         //Relations
         public List<Commentaire> Commentaires { get; set; }
         public List<Citoyen> CitoyenVoted { get; set; }
+        public List<Tag> Tags { get; set; }
         public Citoyen Citoyen { get; set; }
     }
 }

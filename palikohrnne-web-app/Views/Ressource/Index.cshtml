@@ -40,7 +40,7 @@
             <div class="ressource-content">
                 <h3 class="ressource-title"><a asp-action="Details" asp-route-id="@ressource.ID">@ressource.Titre</a></h3>
                 <p class="ressource-text" style="height: 50px;">
-                    @ressource.Contenu
+                    @Html.Raw(ressource.Contenu)
                 </p>
                 <div class="tags">
                     <span class="badge badge-primary">Santé</span>

@@ -138,20 +138,41 @@ namespace palikohrnne_web_app.Api
             return JsonConvert.DeserializeObject<Ressource>(ressource);
         }
 
-        public async Task CreateRessource(Ressource ressource)
+        public async Task<Ressource> CreateRessource(Ressource ressource)
         {
-            var ressourceJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new { 
+            var formData = new
+            {
                 ressource.Titre,
                 ressource.Contenu,
                 ressource.CitoyenID,
-                ressource.TypeRelationID,
-                ressource.TypeRessourceID
-            }),
+                //ressource.TypeRelationID,
+                TypeRelationID = 1, //On omet le typeDeRelation pour le moment
+                //ressource.TypeRessourceID 
+                TypeRessourceID = 1 //On omet le typeDeRessource pour le moment
+            };
+
+            
+
+            var ressourceJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(formData),
                 Encoding.UTF8,
                 "application/json");
 
             using var httpResponse = await Client.PostAsync("/ressources", ressourceJson);
             httpResponse.EnsureSuccessStatusCode();
+
+            using var responseStream = await httpResponse.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+
+            var ressourceCreatedResponse = JObject.Parse(text).SelectToken("data").ToString();
+            Ressource ressourceCreated = JsonConvert.DeserializeObject<Ressource>(ressourceCreatedResponse);
+
+            foreach (var tag in ressource.Tags)
+            {
+                await LierTagEtRessource(ressourceCreated.ID, tag.ID);
+            }
+
+            return ressourceCreated;
         }
 
         public async Task DeleteRessource(int id)
@@ -384,13 +405,26 @@ namespace palikohrnne_web_app.Api
             return JsonConvert.DeserializeObject<Tag>(tag);
         }
 
-        public async Task CreateTag(Tag tag)
+        public async Task<Tag> CreateTag(Tag tag)
         {
             var rangJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new { tag.Nom }),
                 Encoding.UTF8,
                 "application/json");
 
             using var httpResponse = await Client.PostAsync("/tags", rangJson);
+            httpResponse.EnsureSuccessStatusCode();
+
+            using var responseStream = await httpResponse.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+
+            var tagCreatedResponse = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<Tag>(tagCreatedResponse); ;
+        }
+
+        public async Task LierTagEtRessource(int idRessource,int idTag)
+        {
+            using var httpResponse = await Client.PostAsync("/ressources/tags/" + idRessource + "/" + idTag, null);
             httpResponse.EnsureSuccessStatusCode();
         }
         #endregion

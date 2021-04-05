@@ -1,6 +1,8 @@
 ﻿@model Ressource
 @{
     ViewData["Title"] = "PublierRessource";
+    //TODO: Récupèrer le citoyen connecté
+    int CitoyenID = 8;
 }
 @section Styles{
     <link href="~/lib/simditor/styles/simditor.css" rel="stylesheet" />
@@ -15,7 +17,8 @@
     <script src="~/js/publierRessource.js"></script>
 }
 <h1>Ajouter une ressource</h1>
-<form action="" class="mt-5">
+<form method="post" class="mt-5">
+    <input type="hidden" value="@CitoyenID" asp-for="CitoyenID">
     <div class="row">
         <div class="col">
             <label for="Titre">Titre</label>
