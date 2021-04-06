@@ -40,3 +40,11 @@ tr th, td {
         width:  30%;
         padding-left: 45px;
     }
+
+    td{
+        border-bottom: 1px solid lightgray;
+    }
+
+    .toolbar{
+        margin-bottom: 20px;
+    }

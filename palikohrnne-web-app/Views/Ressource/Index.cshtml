@@ -5,7 +5,13 @@
 @section Styles{
     <link href="~/css/ressource-list.css" rel="stylesheet" />
 }
-
+<div class="toolbar">
+    <a asp-action="PublierRessource"
+       asp-route-id="@ViewContext.RouteData.Values["id"]"
+       class="btn btn-success">
+        Publier une ressource dans cette catégorie
+    </a>
+</div>
 <div class="posts-container">
     <table>
         <thead class="table-header">
@@ -30,6 +36,12 @@
                                 @ressource.Citoyen.Pseudo,
                                 @ressource.CreatedAt.ToString("dd/MM/yyyy, hh:mm")
                             </span>
+                            <div class="tags">
+                                @foreach (var tag in ressource.Tags)
+                                {
+                                    <span class="badge bg-success text-light">@tag.Nom</span>              
+                                }
+                            </div>
                         </div>
                     </td>
                     <td class="stats-td">
@@ -40,7 +52,7 @@
 
                     </td>
                     <td class="last-message">
-                        @ressource.Commentaires.LastOrDefault()?.CreatedAt.ToLocalTime().Humanize()  
+                        @ressource.Commentaires.LastOrDefault()?.CreatedAt.ToLocalTime().Humanize()
                         <span style="color:forestgreen">@ressource.Commentaires.LastOrDefault()?.CreatedAt.ToString("hh:mm")</span>
                     </td>
                 </tr>
