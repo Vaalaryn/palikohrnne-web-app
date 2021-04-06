@@ -1,40 +1,57 @@
-﻿.informations{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    font-size: 0.85em;
-    border-bottom: 1px solid black;
-    padding: 0 0 15px 0;
+﻿h1.styled, h2.styled, h3.styled {
+    border-bottom: 1px solid grey;
+    color: grey;
+    font-weight: 400;
 }
-.informations div{
-    margin-right: 20px;
+h1.styled{
+    margin-bottom: 20px;
 }
-.ressource-content{
-    width: 100%;
+.messages-wraper{
+    margin: 50px 0 50px 0;
 }
-
-.auteur {
+.message-container {
     display: flex;
     flex-direction: column;
-    width: 300px;
-    margin-left: auto;
-    margin-bottom: 15px;
-    padding: 5px;
-    background-color: rgb(180 191 245);
-    border-radius: 5px;
+    margin-top: 25px;
 }
-
-.reponse{
-    padding-top: 20px;
+.message-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: forestgreen;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
 }
- .ressource-auteur-info{
-     margin-bottom: 5px;
- }
-
-.filtres-commentaire{
-    margin-bottom: 9px;
+.message-body{
+    display:flex;
+    flex-direction: row;
+    background-color: white;
+    padding: 15px;
 }
+.message-left-pannel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 15%;
+}
+.message-left-pannel span:not(:first-child){
+     border-bottom: 1px solid lightgray;
+     display: block;
+     width: 80%;
+     padding: 10px;
+}
+    .message-left-pannel span:first-child {
+        color: green;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
 
-.commentaires .ressource-box:not(:last-child) {
-    border-bottom: 1px solid lightgrey;
+    .message-left-pannel .heart{
+        margin-top: 20px;
+    }
+.message-content{
+    display: flex;
+    flex-direction: column;
+    width: 85%;
 }
