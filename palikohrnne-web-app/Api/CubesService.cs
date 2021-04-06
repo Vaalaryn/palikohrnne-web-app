@@ -428,5 +428,51 @@ namespace palikohrnne_web_app.Api
             httpResponse.EnsureSuccessStatusCode();
         }
         #endregion
+
+        //Categories
+        #region
+        public async Task<IEnumerable<CategorieWithStats>> GetAllCategoriesWithStats()
+        {
+            var response = await Client.GetAsync(
+            "/categories");
+
+            response.EnsureSuccessStatusCode();
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+            var categories = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<IEnumerable<CategorieWithStats>>(categories);
+        }
+        public async Task<Tag> GetCategorieWithStatsById(int id)
+        {
+            var response = await Client.GetAsync(
+                "/categories/" + id);
+
+            response.EnsureSuccessStatusCode();
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+            var categories = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<Tag>(categories);
+        }
+        public async Task<Categorie> CreateCategorie(Categorie categorie)
+        {
+            var categorieJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new { categorie.Nom, categorie.Description }),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PostAsync("/categories", categorieJson);
+            httpResponse.EnsureSuccessStatusCode();
+
+            using var responseStream = await httpResponse.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+
+            var categorieResponse = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<Categorie>(categorieResponse); ;
+        }
+        #endregion
     }
 }

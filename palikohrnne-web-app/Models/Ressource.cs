@@ -25,5 +25,6 @@ namespace palikohrnne_web_app.Models
         public List<Citoyen> CitoyenVoted { get; set; }
         public List<Tag> Tags { get; set; }
         public Citoyen Citoyen { get; set; }
+        public Categorie Categorie { get; set; }
     }
 }

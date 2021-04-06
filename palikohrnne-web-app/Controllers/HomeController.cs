@@ -19,9 +19,9 @@ namespace palikohrnne_web_app.Controllers
             _cubesService = cubesService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _cubesService.GetAllCategoriesWithStats());
         }
 
         public IActionResult Privacy()

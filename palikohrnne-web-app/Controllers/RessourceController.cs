@@ -16,10 +16,10 @@ namespace palikohrnne_web_app.Controllers
         {
             _cubeService = cubesService;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int id)
         {
             var ressources = await _cubeService.GetAllRessources();
-            return View(ressources);
+            return View(ressources.Where(x => x.Categorie.ID == id).ToList());
         }
 
         public async Task<IActionResult> Details(int id)

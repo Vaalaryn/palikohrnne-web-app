@@ -2,63 +2,49 @@
 @{
     ViewData["Title"] = "Index";
 }
-@section Styles {
-    <link href="~/css/like-button.css" rel="stylesheet" />
+@section Styles{
     <link href="~/css/ressource-list.css" rel="stylesheet" />
-    <link href="~/css/like-button.css" rel="stylesheet" />
-
 }
-@section Scripts{
 
-}
-<div class="title-box">
-    <h1>Dernières ressources <a asp-action="PublierRessource" class="btn btn-primary float-right">Publier une ressource</a></h1>
-    <div class="title-box-filters">
-        <span class="nb-ressources">@Model.Count ressources</span>
-        <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-secondary">Récents</button>
-            <button type="button" class="btn btn-secondary">Actifs</button>
-            <button type="button" class="btn btn-secondary">Sans réponse</button>
-        </div>
-    </div>
-</div>
+<div class="posts-container">
+    <table>
+        <thead class="table-header">
+            <tr>
+                <th></th>
+                <th>TITRE/AUTEUR</th>
+                <th>RÉPONSES/AFFICHAGES</th>
+                <th class="last-message">DERNIER MESSAGE</th>
+            </tr>
+        </thead>
+        <tbody class="table-body">
+            @foreach (var ressource in Model)
+            {
+                <tr>
+                    <td class="logo">
+                        <i class="fa fa-file"></i>
+                    </td>
+                    <td class="titre-td">
+                        <div class="titre">
+                            <span><a href="#">@ressource.Titre</a></span>
+                            <span class="auteur">
+                                @ressource.Citoyen.Pseudo,
+                                @ressource.CreatedAt.ToString("dd/MM/yyyy, hh:mm")
+                            </span>
+                        </div>
+                    </td>
+                    <td class="stats-td">
+                        <div class="stats">
+                            <span>Réponses: @ressource.Commentaires.Count</span>
+                            <span>Affichages: @ressource.Vues</span>
+                        </div>
 
-<div class="ressource-list">
-    @foreach (var ressource in Model)
-    {
-        <div class="ressource-box">
-            <div class="ressource-social">
-                <div class="like">
-                    <div class='button active heart'></div>
-                    <span class="nb-likes">@ressource.Votes</span>
-                </div>
-                <div class="comment">
-                    <i class="fas fa-comment-alt"></i>
-                    <span class="nb-likes">100</span>
-                </div>
-            </div>
-            <div class="ressource-content">
-                <h3 class="ressource-title"><a asp-action="Details" asp-route-id="@ressource.ID">@ressource.Titre</a></h3>
-                <p class="ressource-text" style="height: 50px;">
-                    @Html.Raw(ressource.Contenu)
-                </p>
-                <div class="tags">
-                    <span class="badge badge-primary">Santé</span>
-                    <span class="badge badge-primary">Information</span>
-                    <span class="badge badge-primary">Prévention</span>
-                </div>
-                <div class="auteur">
-                    <div class="ressource-auteur-info">
-                        <span>Rédigé le @ressource.CreatedAt.ToString("dd MMMM yyyy à hh:mm")</span>
-                    </div>
-                    <div class="auteur-info">
-                        <img width="25" height="25" src="https://st3.depositphotos.com/4111759/13425/v/600/depositphotos_134255532-stock-illustration-profile-placeholder-male-default-profile.jpg" alt="Alternate Text" />
-                        <a href="#">@ressource.Citoyen.Prenom @ressource.Citoyen.Prenom</a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    }
-
+                    </td>
+                    <td class="last-message">
+                        @ressource.Commentaires.LastOrDefault()?.CreatedAt.ToLocalTime().Humanize()  
+                        <span style="color:forestgreen">@ressource.Commentaires.LastOrDefault()?.CreatedAt.ToString("hh:mm")</span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
