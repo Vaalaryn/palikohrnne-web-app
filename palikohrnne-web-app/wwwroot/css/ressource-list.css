@@ -48,3 +48,52 @@ tr th, td {
     .toolbar{
         margin-bottom: 20px;
     }
+
+
+
+/* Filtres */
+.filtres-container{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    background-color: #c6ffc6;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.filtres-container .filtres-footer,.filtres-body{
+    padding: 15px;
+}
+.filtres-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.filtre-section{
+    display: flex;
+    flex-direction: column;
+}
+.filtre-elem div {
+    display: flex;
+    flex-direction: column;
+}
+.filtre-elem span{
+    font-weight: bold;
+}
+.filtre-elem div div {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+    .filtre-elem div div label {
+        margin-left: 15px;
+    }
+
+.select2-selection__choice{
+    background-color: forestgreen !important;
+    color: white;
+    border: none !important;
+}
+.select2-selection__choice__remove{
+    color: white !important;
+}
