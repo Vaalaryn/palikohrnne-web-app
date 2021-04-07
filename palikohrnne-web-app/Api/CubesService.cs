@@ -18,7 +18,7 @@ namespace palikohrnne_web_app.Api
 
         public CubesService(HttpClient client)
         {
-            client.BaseAddress = new Uri("http://palikorne.brice-bitot.fr");
+            client.BaseAddress = new Uri("http://brice-bitot.fr");
             //client.BaseAddress = new Uri("http://localhost:8080/");
             Client = client;
         }
@@ -35,6 +35,19 @@ namespace palikohrnne_web_app.Api
             string text = reader.ReadToEnd();
             var rangs = JObject.Parse(text).SelectToken("data").ToString();
             return JsonConvert.DeserializeObject<IEnumerable<Rang>>(rangs);
+        }
+        public async Task<Rang> GetRangById(int id)
+        {
+            var response = await Client.GetAsync(
+                "/rangs/" + id);
+
+            response.EnsureSuccessStatusCode();
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+            var rang = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<Rang>(rang);
         }
 
         //Citoyens
