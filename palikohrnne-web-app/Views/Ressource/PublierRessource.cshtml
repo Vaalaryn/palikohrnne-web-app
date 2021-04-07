@@ -6,6 +6,7 @@
 }
 @section Styles{
     <link href="~/lib/simditor/styles/simditor.css" rel="stylesheet" />
+    <link href="~/css/ajouterRessource.css" rel="stylesheet" />
     <link href="~/lib/select2/css/select2.css" rel="stylesheet" />
 }
 @section Scripts{
@@ -16,30 +17,59 @@
     <script src="~/lib/select2/js/select2.js"></script>
     <script src="~/js/publierRessource.js"></script>
 }
-<h1>Ajouter une ressource</h1>
-<form method="post" class="mt-5">
-    <input type="hidden" value="@CitoyenID" asp-for="CitoyenID">
-    <div class="row">
-        <div class="col">
-            <label for="Titre">Titre</label>
-            <input class="form-control mb-3" asp-for="Titre">
+<div class="container">
+    <div class="container-form">
+        <div class="header-form">
+            <h1>Ajouter une ressource</h1>
+        </div>
+        <div class="body-form">
+            <form method="post">
+                <input type="hidden" value="@CitoyenID" asp-for="CitoyenID">
+                <div class="row">
+                    <div class="col">
+                        <select id="diffusion" class="diffusion" name="TypeRelationID" asp-items="ViewBag.Diffusions"></select>
+                        <label class="float-right mr-3" for="diffusion">Sélectionner le cercle de diffusion</label>
+
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col">
+                        <label for="Titre">Titre</label>
+                        <input class="form-control mb-3" asp-for="Titre">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mt-3">
+                        <label>Catégorie</label>
+                        <select asp-items="@ViewBag.Categories" name="CategorieID" class="form-control">
+                            <option value="">Sélectionner une catégorie</option>
+                        </select>
+                    </div>
+                    <div class="col mt-3">
+                        <label>Type de ressource</label>
+                        <select asp-items="@ViewBag.TypesRessources" name="TypeRessourceID" class="form-control">
+                            <option value="">Sélectionner un type de ressource</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mt-3">
+                        <label for="editor">Contenu de la ressource</label>
+                        <textarea required asp-for="Contenu"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mt-3">
+                        <label for="Tags">Ajouter des tags</label>
+                        <select asp-items="@ViewBag.Tags" style="width:100%;" multiple="multiple" name="Tags[]" id="Tags"></select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mt-3">
+                        <input class="btn btn-primary mt-3" type="submit" value="Publier la ressource">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <label for="editor">Contenu de la ressource</label>
-            <textarea required asp-for="Contenu"></textarea>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col mt-3">
-            <label for="Tags">Ajouter des tags</label>
-            <select asp-items="@ViewBag.Tags" style="width:100%;" multiple="multiple" name="Tags[]" id="Tags"></select>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <input class="btn btn-primary mt-3" type="submit" value="Publier la ressource">
-        </div>
-    </div>
-</form>
+</div>

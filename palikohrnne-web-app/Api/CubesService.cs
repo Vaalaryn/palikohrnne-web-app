@@ -145,10 +145,9 @@ namespace palikohrnne_web_app.Api
                 ressource.Titre,
                 ressource.Contenu,
                 ressource.CitoyenID,
-                //ressource.TypeRelationID,
-                TypeRelationID = 1, //On omet le typeDeRelation pour le moment
-                //ressource.TypeRessourceID 
-                TypeRessourceID = 1 //On omet le typeDeRessource pour le moment
+                ressource.TypeRelationID,
+                ressource.TypeRessourceID, 
+                ressource.CategorieID
             };
 
             

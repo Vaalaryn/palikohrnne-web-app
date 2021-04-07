@@ -1,0 +1,16 @@
+﻿.header-form{
+    background-color: forestgreen;
+    color: white;
+    padding: 10px;
+}
+    .header-form h1 {
+        font-size: 1.65em;
+    }
+.body-form{
+    background-color: white;
+    padding: 15px;
+}
+
+.diffusion{
+    float: right;
+}
