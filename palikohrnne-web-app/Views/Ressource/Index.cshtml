@@ -1,16 +1,38 @@
 ﻿@model List<Ressource>
 @{
     ViewData["Title"] = "Index";
+    var idCategorie = ViewContext.RouteData.Values["id"];
 }
 @section Styles{
     <link href="~/css/ressource-list.css" rel="stylesheet" />
 }
 <div class="toolbar">
     <a asp-action="PublierRessource"
-       asp-route-id="@ViewContext.RouteData.Values["id"]"
+       asp-route-id="@idCategorie"
        class="btn btn-success">
         Publier une ressource dans cette catégorie
     </a>
+    <span class="ml-5">Méthode de tri : </span>
+    <div class="btn-group ml-3" role="group" aria-label="Basic outlined example">
+        <a asp-action="Index"
+           asp-route-id="@idCategorie" 
+           asp-route-filtre="recents"
+           class="btn btn-outline-success @(ViewBag.Filtre == "recents" || String.IsNullOrEmpty(ViewBag.Filtre)? "active" : "")">
+            Les plus récent
+        </a>
+        <a asp-action="Index"
+           asp-route-id="@idCategorie"
+           asp-route-filtre="reponsesDesc"
+           class="btn btn-outline-success @(ViewBag.Filtre == "reponsesDesc"? "active" : "")">
+            Le plus de réponses
+        </a>
+        <a asp-action="Index"
+           asp-route-id="@idCategorie"
+           asp-route-filtre="reponsesAsc"
+           class="btn btn-outline-success @(ViewBag.Filtre == "reponsesAsc"? "active" : "")">
+            Le moins de réponses
+        </a>
+    </div>
 </div>
 <div class="posts-container">
     <table>
@@ -34,12 +56,12 @@
                             <span><a asp-action="Details" asp-route-id="@ressource.ID">@ressource.Titre</a></span>
                             <span class="auteur">
                                 @ressource.Citoyen.Pseudo,
-                                @ressource.CreatedAt.ToString("dd/MM/yyyy, hh:mm")
+                                @ressource.CreatedAt.ToString("dd/MM/yyyy, HH:mm")
                             </span>
                             <div class="tags">
                                 @foreach (var tag in ressource.Tags)
                                 {
-                                    <span class="badge bg-success text-light">@tag.Nom</span>              
+                                    <span class="badge bg-success text-light">@tag.Nom</span>
                                 }
                             </div>
                         </div>
