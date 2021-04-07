@@ -60,6 +60,8 @@ namespace palikohrnne_web_app
 
             app.UseRouting();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
@@ -69,10 +71,6 @@ namespace palikohrnne_web_app
                 endpoints.MapRazorPages();
             });
 
-            #region snippet2
-            app.UseAuthentication();
-            app.UseAuthorization();
-            #endregion
         }
     }
 }
