@@ -21,10 +21,12 @@ namespace palikohrnne_web_app.Controllers
             IEnumerable<Ressource> ressources = await _cubeService.GetAllRessources();
             IEnumerable<TypeRelation> typesRelations = await _cubeService.GetAllTypeRelations();
             IEnumerable<Tag> tags = await _cubeService.GetAllTags();
+
             if(string.IsNullOrEmpty(filtres.AnswersFilter))
             {
                 filtres.AnswersFilter = "all-answers";
             }
+
             //Filtres -------------------------------------
             //Filtre des réponses
             switch (filtres.AnswersFilter)
@@ -75,7 +77,6 @@ namespace palikohrnne_web_app.Controllers
             }
             else
             {
-                ressources = new List<Ressource>();
             }
             //Filtre tags
             if ((filtres.TagsID != null) && (filtres.TagsID.Any()))
@@ -187,7 +188,6 @@ namespace palikohrnne_web_app.Controllers
         public async Task<IActionResult> CommenterRessource(Commentaire commentaire)
         {
             await _cubeService.CreateCommentaire(commentaire);
-
             return RedirectToAction("Details", new { id = commentaire.RessourceID });
         }
     }
