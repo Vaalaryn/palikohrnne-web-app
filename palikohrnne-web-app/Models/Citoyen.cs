@@ -22,6 +22,7 @@ namespace palikohrnne_web_app.Models
         public string Telephone { get; set; }
         public string Ville { get; set; }
         public int RangID { get; set; }
+        public Rang Rang { get; set; }
         //public Rang Rang { get; set; }
     }
 }
