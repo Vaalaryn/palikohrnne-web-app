@@ -7,7 +7,7 @@ table{
 }
 .table-header{
     font-weight: bold;
-    background-color: forestgreen;
+    background-color: #51b37f;
     color: white;
 }
 .table-body{

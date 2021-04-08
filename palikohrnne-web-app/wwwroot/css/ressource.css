@@ -18,7 +18,7 @@ h1.styled{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: forestgreen;
+    background-color: #51b37f;
     color: white;
     font-weight: bold;
     padding: 10px;
