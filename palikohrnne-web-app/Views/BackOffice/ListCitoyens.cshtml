@@ -2,6 +2,35 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "_LayoutBackOffice";
+
+    string BadgeRangClasse(string rang)
+    {
+        string badgeClasse = "bg-success";
+        switch (rang)
+        {
+            case "Citoyen":
+                {
+                    badgeClasse = "bg-success";
+                    break;
+                }
+            case "Modérateur":
+                {
+                    badgeClasse = "bg-warning";
+                    break;
+                }
+            case "Administrateur":
+                {
+                    badgeClasse = "bg-danger";
+                    break;
+                }
+            case "Super-administrateur":
+                {
+                    badgeClasse = "bg-dark";
+                    break;
+                }
+        }
+        return badgeClasse;
+    }
 }
 
 
@@ -16,7 +45,7 @@
 <nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
     <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" data-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true">Tous</a>
     <a class="flex-sm-fill text-sm-center nav-link" id="orders-paid-tab" data-toggle="tab" href="#orders-paid" role="tab" aria-controls="orders-paid" aria-selected="false">Citoyens</a>
-    <a class="flex-sm-fill text-sm-center nav-link" id="orders-pending-tab" data-toggle="tab" href="#orders-pending" role="tab" aria-controls="orders-pending" aria-selected="false">Modérateurs</a>
+    <a class="flex-sm-fill text-sm-center nav-link" id="orders-pending-tab" data-toggle="tab" href="#orders-pending" role="tab" aria-controls="orders-pending" aria-selected="false">Administration</a>
     <a class="flex-sm-fill text-sm-center nav-link" id="orders-cancelled-tab" data-toggle="tab" href="#orders-cancelled" role="tab" aria-controls="orders-cancelled" aria-selected="false">Désactivés</a>
 </nav>
 
@@ -45,8 +74,8 @@
                                     <td class="cell"><span class="truncate">@citoyen.Nom @citoyen.Prenom</span></td>
                                     <td class="cell">@citoyen.Pseudo</td>
                                     <td class="cell"><span>@citoyen.CreatedAt.ToString("dd MMM")</span><span class="note">@citoyen.CreatedAt.Year</span></td>
-                                    <td class="cell"><span class="badge bg-success">@citoyen.Rang.Nom</span></td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-action="CitoyenInfo">Voir</a></td>
+                                    <td class="cell"><span class="badge @BadgeRangClasse(citoyen.Rang.Nom)">@citoyen.Rang.Nom</span></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-action="CitoyenInfo" asp-route-id="@citoyen.ID">Voir</a></td>
                                 </tr>
                             }
                         </tbody>
@@ -55,20 +84,6 @@
 
             </div><!--//app-card-body-->
         </div><!--//app-card-->
-        <nav class="app-pagination">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav><!--//app-pagination-->
-
     </div><!--//tab-pane-->
 
     <div class="tab-pane fade" id="orders-paid" role="tabpanel" aria-labelledby="orders-paid-tab">
@@ -94,8 +109,8 @@
                                     <td class="cell"><span class="truncate">@citoyen.Nom @citoyen.Prenom</span></td>
                                     <td class="cell">@citoyen.Pseudo</td>
                                     <td class="cell"><span>@citoyen.CreatedAt.ToString("dd MMM")</span><span class="note">@citoyen.CreatedAt.Year</span></td>
-                                    <td class="cell"><span class="badge bg-success">@citoyen.Rang.Nom</span></td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-action="CitoyenInfo">Voir</a></td>
+                                    <td class="cell"><span class="badge @BadgeRangClasse(citoyen.Rang.Nom)">@citoyen.Rang.Nom</span></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-action="CitoyenInfo" asp-route-id="@citoyen.ID">Voir</a></td>
                                 </tr>
                             }
                         </tbody>
@@ -121,15 +136,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var citoyen in Model.Where(x => x.Rang.Nom == "Modérateur"))
+                            @foreach (var citoyen in Model.Where(x => x.Rang.Nom == "Modérateur" || x.Rang.Nom == "Administrateur" || x.Rang.Nom == "Super-administrateur"))
                             {
                                 <tr>
                                     <td class="cell">#@citoyen.ID</td>
                                     <td class="cell"><span class="truncate">@citoyen.Nom @citoyen.Prenom</span></td>
                                     <td class="cell">@citoyen.Pseudo</td>
                                     <td class="cell"><span>@citoyen.CreatedAt.ToString("dd MMM")</span><span class="note">@citoyen.CreatedAt.Year</span></td>
-                                    <td class="cell"><span class="badge bg-success">@citoyen.Rang.Nom</span></td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-action="CitoyenInfo">Voir</a></td>
+                                    <td class="cell"><span class="badge @BadgeRangClasse(citoyen.Rang.Nom)">@citoyen.Rang.Nom</span></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-action="CitoyenInfo" asp-route-id="@citoyen.ID">Voir</a></td>
                                 </tr>
                             }
                         </tbody>
@@ -161,8 +176,8 @@
                                     <td class="cell"><span class="truncate">@citoyen.Nom @citoyen.Prenom</span></td>
                                     <td class="cell">@citoyen.Pseudo</td>
                                     <td class="cell"><span>@citoyen.CreatedAt.ToString("dd MMM")</span><span class="note">@citoyen.CreatedAt.Year</span></td>
-                                    <td class="cell"><span class="badge bg-success">@citoyen.Rang.Nom</span></td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-action="CitoyenInfo">Voir</a></td>
+                                    <td class="cell"><span class="badge @BadgeRangClasse(citoyen.Rang.Nom)">@citoyen.Rang.Nom</span></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-action="CitoyenInfo" asp-route-id="@citoyen.ID">Voir</a></td>
                                 </tr>
                             }
                         </tbody>

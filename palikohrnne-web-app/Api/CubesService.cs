@@ -101,6 +101,27 @@ namespace palikohrnne_web_app.Api
             using var httpResponse = await Client.PostAsync("/citoyens", citoyenJson);
             httpResponse.EnsureSuccessStatusCode();
         }
+        public async Task UpdateCitoyen(Citoyen citoyen)
+        {
+            var citoyenJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new { 
+                citoyen.Adresse,
+                citoyen.CodePostal,
+                citoyen.Genre,
+                citoyen.Mail,
+                citoyen.MotDePasse,
+                citoyen.Nom,
+                citoyen.Prenom,
+                citoyen.Pseudo,
+                citoyen.Telephone,
+                citoyen.Ville,
+                citoyen.RangID
+            }),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PatchAsync("/citoyens/" + citoyen.ID, citoyenJson);
+            httpResponse.EnsureSuccessStatusCode();
+        }
 
         public async Task DeleteCitoyen(int id)
         {
