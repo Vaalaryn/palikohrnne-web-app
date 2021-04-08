@@ -16,7 +16,7 @@ namespace palikohrnne_web_app.Models
         public string Adresse { get; set; }
         [Required]
         [Display(Name = "Code Postal")]
-        public string CP { get; set; }
+        public string CodePostal { get; set; }
         [Required]
         public string Genre { get; set; }
         [Required]

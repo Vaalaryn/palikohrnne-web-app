@@ -1,0 +1,96 @@
+﻿@model palikohrnne_web_app.Models.Citoyen
+@using palikohrnne_web_app.Api
+
+@{
+    ViewData["Title"] = "Information sur l'utilisateur";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<h4>@Model.Nom @Model.Prenom</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <label asp-for="Nom" class="control-label"></label>
+            </div>
+            <div class="col-md-8">
+                <input asp-for="Nom" class="form-control" disabled/>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <label asp-for="Prenom" class="control-label"></label>
+            </div>
+            <div class="col-md-8">
+                <input asp-for="Prenom" class="form-control" disabled/>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <label asp-for="Pseudo" class="control-label"></label>
+            </div>
+            <div class="col-md-8">
+                <input asp-for="Pseudo" class="form-control" disabled/>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <label asp-for="Genre" class="control-label"></label>
+            </div>
+            <div class="col-md-8">
+                <input asp-for="Genre" class="form-control" disabled/>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <label asp-for="Telephone" class="control-label"></label>
+            </div>
+            <div class="col-md-8">
+                <input asp-for="Telephone" class="form-control" disabled/>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <label asp-for="Mail" class="control-label"></label>
+            </div>
+            <div class="col-md-8">
+                <input asp-for="Mail" class="form-control" disabled/>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <label asp-for="Adresse" class="control-label"></label>
+            </div>
+            <div class="col-md-8">
+                <input asp-for="Adresse" class="form-control" disabled/>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <label asp-for="CodePostal" class="control-label"></label>
+            </div>
+            <div class="col-md-8">
+                <input asp-for="CodePostal" class="form-control" disabled/>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <label asp-for="Ville" class="control-label"></label>
+            </div>
+            <div class="col-md-8">
+                <input asp-for="Ville" class="form-control" disabled/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

@@ -66,6 +66,20 @@ namespace palikohrnne_web_app.Api
             return JsonConvert.DeserializeObject<IEnumerable<Citoyen>>(citoyens);
         }
 
+        public async Task<Citoyen> GetCitoyenById(int id)
+        {
+            var response = await Client.GetAsync(
+                "/citoyens/" + id);
+
+            response.EnsureSuccessStatusCode();
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+            var citoyens = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<Citoyen>(citoyens);
+        }
+
         public async Task CreateCitoyen(Citoyen citoyen)
         {
             var citoyenJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(citoyen),
@@ -74,6 +88,29 @@ namespace palikohrnne_web_app.Api
 
             using var httpResponse = await Client.PostAsync("/citoyens", citoyenJson);
             Console.WriteLine(httpResponse.Content.ReadAsStringAsync().Result);
+            httpResponse.EnsureSuccessStatusCode();
+        }
+
+        public async Task UpdateCitoyen(Citoyen citoyen)
+        {
+            var citoyenJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                citoyen.Adresse,
+                citoyen.CodePostal,
+                citoyen.Genre,
+                citoyen.Mail,
+                citoyen.MotDePasse,
+                citoyen.Nom,
+                citoyen.Prenom,
+                citoyen.Pseudo,
+                citoyen.Telephone,
+                citoyen.Ville,
+                citoyen.RangID
+            }),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PatchAsync("/citoyens/" + citoyen.ID, citoyenJson);
             httpResponse.EnsureSuccessStatusCode();
         }
 

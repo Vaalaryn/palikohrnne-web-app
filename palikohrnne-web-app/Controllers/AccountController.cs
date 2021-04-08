@@ -21,14 +21,13 @@ namespace palikohrnne_web_app.Controllers
 
         private readonly CubesService _cubesService;
 
-        private readonly IHttpContextAccessor HttpContextAccessor;
-
         public class LoginSate
         {
             public bool IsConnected { get; set; }
             public string Rang { get; set; }
             public string FullName { get; set; }
             public string EMail { get; set; }
+            public int CitoyenID { get; set; }
         }
 
         private readonly ILogger<AccountController> _logger;
@@ -37,15 +36,17 @@ namespace palikohrnne_web_app.Controllers
             _cubesService = cubesService;
             _logger = logger;
         }
-
+        
         public async Task<IActionResult> IndexAsync()
         {
             
-                var citoyens = await _cubesService.GetAllCitoyens();
-            Console.WriteLine("");
-            Console.WriteLine(HttpContext.User.Identity.Name);
-            Console.WriteLine("");
+            var citoyens = await _cubesService.GetAllCitoyens();
             return View(citoyens);
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
 
         public IActionResult Register()
@@ -94,6 +95,7 @@ namespace palikohrnne_web_app.Controllers
                     new Claim(JwtRegisteredClaimNames.UniqueName, user.FullName),
                     new Claim(ClaimTypes.Name, user.EMail),
                     new Claim("FullName", user.FullName),
+                    new Claim("ID", user.CitoyenID.ToString()),
                     new Claim(ClaimTypes.Role, user.Rang),
                 };
 
@@ -145,8 +147,9 @@ namespace palikohrnne_web_app.Controllers
                         IsConnected = true,
                         Rang = rangName,
                         FullName = citoyen.Nom + " " + citoyen.Prenom,
-                        EMail = citoyen.Mail
-
+                        EMail = citoyen.Mail,
+                        CitoyenID = citoyen.ID
+                        
 
                     };
                 }
