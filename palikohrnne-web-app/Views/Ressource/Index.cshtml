@@ -16,7 +16,7 @@
     <div class="toolbar">
         <a asp-action="PublierRessource"
            asp-route-id="@idCategorie"
-           class="btn btn-success">
+           class="btn btn-success text-light">
             Publier une ressource dans cette catégorie
         </a>
         <span class="ml-5">Méthode de tri : </span>
@@ -41,7 +41,7 @@
             </a>
         </div>
         <div class="filtrer float-right">
-            <button id="showFilter" class="btn btn-outline-success"><i class="fa fa-cog mr-2"></i>Filtrer</button>
+            <button id="showFilter" class="btn btn-success text-light"><i class="fa fa-cog mr-2"></i>Filtrer</button>
         </div>
         <div class="filtres-container" style="display: none;">
             <form method="get" asp-action="Index">

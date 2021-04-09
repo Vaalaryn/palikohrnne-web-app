@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -15,12 +16,15 @@ namespace palikohrnne_web_app.Api
     public class CubesService
     {
         public HttpClient Client { get; }
-
-        public CubesService(HttpClient client)
+        private string Token;
+        public CubesService(HttpClient client) 
         {
             //client.BaseAddress = new Uri("http://palikorne.brice-bitot.fr/");
             client.BaseAddress = new Uri("http://localhost:8081/");
             Client = client;
+            //TODO: Récupérer le token à la connexion
+            Token = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYWlsIjoidG90bzQyQGdtYWlsLnRvdG8iLCJSYW5nSUQiOjIsImV4cCI6MTYxNzk5NzEwNCwib3JpZ19pYXQiOjE2MTc5NjExMDR9.b-kDgMT8qSb9kyjy8E7-QhzALJUIWu_lS2Ex_UiudAo";
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Bearer", Token);
         }
         //Rangs
         #region
@@ -28,8 +32,16 @@ namespace palikohrnne_web_app.Api
         {
             var response = await Client.GetAsync(
                 "/rangs");
+            try
+            {
+                response.EnsureSuccessStatusCode();
+            }
+            catch(HttpRequestException exeption)
+            {
+                throw;
+            }
 
-            response.EnsureSuccessStatusCode();
+            HttpRequestException test = new HttpRequestException();
 
             using var responseStream = await response.Content.ReadAsStreamAsync();
             StreamReader reader = new(responseStream);
@@ -67,7 +79,7 @@ namespace palikohrnne_web_app.Api
         public async Task<IEnumerable<Citoyen>> GetAllCitoyens()
         {
             var response = await Client.GetAsync(
-                "/citoyens");
+                "/api/citoyens");
 
             response.EnsureSuccessStatusCode();
 
@@ -81,7 +93,7 @@ namespace palikohrnne_web_app.Api
         public async Task<Citoyen> GetCitoyenById(int id)
         {
             var response = await Client.GetAsync(
-                "/citoyens/" + id);
+                "/api/citoyens/" + id);
 
             response.EnsureSuccessStatusCode();
 
@@ -98,7 +110,7 @@ namespace palikohrnne_web_app.Api
                 Encoding.UTF8,
                 "application/json");
 
-            using var httpResponse = await Client.PostAsync("/citoyens", citoyenJson);
+            using var httpResponse = await Client.PostAsync("/api/citoyens", citoyenJson);
             httpResponse.EnsureSuccessStatusCode();
         }
         public async Task UpdateCitoyen(Citoyen citoyen)
@@ -119,13 +131,13 @@ namespace palikohrnne_web_app.Api
                 Encoding.UTF8,
                 "application/json");
 
-            using var httpResponse = await Client.PatchAsync("/citoyens/" + citoyen.ID, citoyenJson);
+            using var httpResponse = await Client.PatchAsync("/api/citoyens/" + citoyen.ID, citoyenJson);
             httpResponse.EnsureSuccessStatusCode();
         }
 
         public async Task DeleteCitoyen(int id)
         {
-            using var httpResponse = await Client.DeleteAsync("/citoyens/" + id);
+            using var httpResponse = await Client.DeleteAsync("/api/citoyens/" + id);
             httpResponse.EnsureSuccessStatusCode();
         }
         #endregion

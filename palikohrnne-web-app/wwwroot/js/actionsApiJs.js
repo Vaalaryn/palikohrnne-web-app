@@ -3,7 +3,7 @@ let headers = {"content-type": "text/plain;charset=UTF-8"}
 
 function likerCommentaire(idCitoyen, idCommentaire) {
     $.post({
-        url: baseUrlApi + "/voteCommentaire",
+        url: baseUrlApi + "/api/voteCommentaire",
         headers,
         data: JSON.stringify({
             CitoyenID: idCitoyen,
@@ -15,14 +15,14 @@ function likerCommentaire(idCitoyen, idCommentaire) {
 function unlikerCommentaire(idCitoyen, idCommentaire) {
     $.ajax({
         method: "DELETE",
-        url: baseUrlApi + "/voteCommentaire/" + idCitoyen + "/" + idCommentaire,
+        url: baseUrlApi + "/api/voteCommentaire/" + idCitoyen + "/" + idCommentaire,
         headers
     })
 }
 
 function likerRessource(idCitoyen,idRessource) {
     $.post({
-        url: baseUrlApi + "/voteRessources",
+        url: baseUrlApi + "/api/voteRessources",
         headers,
         data: JSON.stringify({
             CitoyenID: idCitoyen,
@@ -34,7 +34,7 @@ function likerRessource(idCitoyen,idRessource) {
 function unlikerRessource(idCitoyen, idRessource) {
     $.ajax({
         method: "DELETE",
-        url: baseUrlApi + "/voteRessources/" + idCitoyen + "/" + idRessource,
+        url: baseUrlApi + "/api/voteRessources/" + idCitoyen + "/" + idRessource,
         headers
     })
 }
