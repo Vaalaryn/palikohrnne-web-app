@@ -1,0 +1,42 @@
+﻿@model IEnumerable<palikohrnne_web_app.Models.Citoyen>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<table class="table table-bordered table-responsive table-hover">
+    <tr>
+        <th>Date de création</th>
+        <th>Adresse</th>
+        <th>CodePostal</th>
+        <th>Ville</th>
+        <th>Genre</th>
+        <th>Mail</th>
+        <th>Nom</th>
+        <th>Prenom</th>
+        <th>Pseudo</th>
+        <th>Telephone</th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var d in Model)
+    {
+
+<tr>
+    <td>@d.CreatedAt</td>
+    <td>@d.Adresse</td>
+    <td>@d.CodePostal</td>
+    <td>@d.Ville</td>
+    <td>@d.Genre</td>
+    <td>@d.Mail</td>
+    <td>@d.Nom</td>
+    <td>@d.Prenom</td>
+    <td>@d.Pseudo</td>
+    <td>@d.Telephone</td>
+    <td><a class="nav-link text-dark" href="Profile/Detail/@d.ID">Detail du profil</a></td>
+</tr>
+
+    }
+</table> 
