@@ -119,7 +119,7 @@ namespace palikohrnne_web_app.Controllers
             //Création du model
             ListeRessourceModel model = new ListeRessourceModel
             {
-                Ressources = ressources.Where(x => x.Categorie.ID == id).ToList(),
+                Ressources = ressources.Where(x => x.Categorie.ID == id && x.ValidationAdmin == true).ToList(),
                 Filtres = filtres
             };
             return View(model);

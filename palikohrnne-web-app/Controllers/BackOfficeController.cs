@@ -31,11 +31,11 @@ namespace palikohrnne_web_app.Controllers
         public async Task<IActionResult> CitoyenInfo(int id)
         {
             var model = await _cubesService.GetCitoyenById(id);
-            ViewBag.Rangs = new SelectList(await _cubesService.GetAllRangs(),"ID","Nom",model.RangID);
+            ViewBag.Rangs = new SelectList(await _cubesService.GetAllRangs(), "ID", "Nom", model.RangID);
             return View(model);
         }
 
-        public async Task<IActionResult> ModifierRang(int id,int rangId)
+        public async Task<IActionResult> ModifierRang(int id, int rangId)
         {
             Citoyen citoyen = await _cubesService.GetCitoyenById(id);
             citoyen.RangID = rangId;
@@ -50,6 +50,33 @@ namespace palikohrnne_web_app.Controllers
 
             await _cubesService.DeleteCitoyen(id);
             return RedirectToAction("CitoyenInfo", new { id = id });
+        }
+
+        public async Task<IActionResult> ValidationRessourceList()
+        {
+            var model = await _cubesService.GetAllRessources();
+            return View(model.Where(x => !x.ValidationAdmin.HasValue));
+        }
+
+        public async Task<IActionResult> DetailsRessourceNonValide(int id)
+        {
+            var model = await _cubesService.GetRessourceById(id);
+
+            if (model.ValidationAdmin.HasValue)
+            {
+                return NotFound();
+            }
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ValidationRessource(int id, string decision)
+        {
+            Ressource ressource = await _cubesService.GetRessourceById(id);
+            ressource.ValidationAdmin = decision == "Valider";
+            await _cubesService.UpdateRessource(ressource);
+
+            return RedirectToAction("ValidationRessourceList");
         }
     }
 }

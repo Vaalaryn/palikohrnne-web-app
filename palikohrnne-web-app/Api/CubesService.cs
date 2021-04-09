@@ -17,14 +17,14 @@ namespace palikohrnne_web_app.Api
     {
         public HttpClient Client { get; }
         private string Token;
-        public CubesService(HttpClient client) 
+        public CubesService(HttpClient client)
         {
             //client.BaseAddress = new Uri("http://palikorne.brice-bitot.fr/");
             client.BaseAddress = new Uri("http://localhost:8081/");
             Client = client;
             //TODO: Récupérer le token à la connexion
-            Token = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYWlsIjoidG90bzQyQGdtYWlsLnRvdG8iLCJSYW5nSUQiOjIsImV4cCI6MTYxNzk5NzEwNCwib3JpZ19pYXQiOjE2MTc5NjExMDR9.b-kDgMT8qSb9kyjy8E7-QhzALJUIWu_lS2Ex_UiudAo";
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Bearer", Token);
+            Token = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYWlsIjoidG90bzQzQGdtYWlsLnRvdG8iLCJSYW5nSUQiOjMsImV4cCI6MTYxODAyMjAzOSwib3JpZ19pYXQiOjE2MTc5ODYwMzl9.VbG7Hkz2YVreKGzZTJ_ARbaB7fpvCn9Z3vrZ3b51lGg";
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
         }
         //Rangs
         #region
@@ -32,14 +32,9 @@ namespace palikohrnne_web_app.Api
         {
             var response = await Client.GetAsync(
                 "/rangs");
-            try
-            {
-                response.EnsureSuccessStatusCode();
-            }
-            catch(HttpRequestException exeption)
-            {
-                throw;
-            }
+
+            response.EnsureSuccessStatusCode();
+
 
             HttpRequestException test = new HttpRequestException();
 
@@ -115,7 +110,8 @@ namespace palikohrnne_web_app.Api
         }
         public async Task UpdateCitoyen(Citoyen citoyen)
         {
-            var citoyenJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new { 
+            var citoyenJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
+            {
                 citoyen.Adresse,
                 citoyen.CodePostal,
                 citoyen.Genre,
@@ -179,11 +175,11 @@ namespace palikohrnne_web_app.Api
                 ressource.Contenu,
                 ressource.CitoyenID,
                 ressource.TypeRelationID,
-                ressource.TypeRessourceID, 
-                ressource.CategorieID
+                ressource.TypeRessourceID,
+                ressource.CategorieID,
             };
 
-            
+
 
             var ressourceJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(formData),
                 Encoding.UTF8,
@@ -205,6 +201,28 @@ namespace palikohrnne_web_app.Api
             }
 
             return ressourceCreated;
+        }
+
+        public async Task UpdateRessource(Ressource ressource)
+        {
+            var ressourceJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                ressource.Titre,
+                ressource.Vues,
+                ressource.Votes,
+                ressource.ValidationAdmin,
+                ressource.Contenu,
+                ressource.TypeRelationID,
+                ressource.CitoyenID,
+                ressource.TypeRessourceID,
+                ressource.CategorieID
+
+            }),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PatchAsync("/api/ressources/" + ressource.ID, ressourceJson);
+            httpResponse.EnsureSuccessStatusCode();
         }
 
         public async Task DeleteRessource(int id)
@@ -369,7 +387,8 @@ namespace palikohrnne_web_app.Api
         /// <returns></returns>
         public async Task LikerRessource(int idCitoyen, int idRessource)
         {
-            var likeRessourceJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new {
+            var likeRessourceJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
+            {
                 CitoyenID = idCitoyen,
                 RessourceID = idRessource
             }),
@@ -454,7 +473,7 @@ namespace palikohrnne_web_app.Api
             return JsonConvert.DeserializeObject<Tag>(tagCreatedResponse); ;
         }
 
-        public async Task LierTagEtRessource(int idRessource,int idTag)
+        public async Task LierTagEtRessource(int idRessource, int idTag)
         {
             using var httpResponse = await Client.PostAsync("/ressources/tags/" + idRessource + "/" + idTag, null);
             httpResponse.EnsureSuccessStatusCode();
