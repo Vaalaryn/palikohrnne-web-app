@@ -8,19 +8,19 @@ function _onBtnLikeClicked($button, saveInDb) {
 
     if ($button.attr("data-type-like") == "ressource") {
         if (saveInDb) {
-            likerRessource(1, id);
+            likerRessource(2, id);
             updateNbLikes($nbLikeDisplay, nbLikes + 1);
         } else {
-            unlikerRessource(1, id);
+            unlikerRessource(2, id);
             updateNbLikes($nbLikeDisplay, nbLikes - 1);
         }
     } else {
         if (saveInDb) {
-            likerCommentaire(1, id);
+            likerCommentaire(2, id);
             updateNbLikes($nbLikeDisplay, nbLikes + 1);
             
         } else {
-            unlikerCommentaire(1, id);
+            unlikerCommentaire(2, id);
             updateNbLikes($nbLikeDisplay, nbLikes - 1);
         }
     }

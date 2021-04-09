@@ -64,7 +64,7 @@ namespace palikohrnne_web_app.Api
                 Encoding.UTF8,
                 "application/json");
 
-            using var httpResponse = await Client.PostAsync("/rangs", rangJson);
+            using var httpResponse = await Client.PostAsync("/api/rangs", rangJson);
             httpResponse.EnsureSuccessStatusCode();
         }
         #endregion
@@ -185,7 +185,7 @@ namespace palikohrnne_web_app.Api
                 Encoding.UTF8,
                 "application/json");
 
-            using var httpResponse = await Client.PostAsync("/ressources", ressourceJson);
+            using var httpResponse = await Client.PostAsync("/api/ressources", ressourceJson);
             httpResponse.EnsureSuccessStatusCode();
 
             using var responseStream = await httpResponse.Content.ReadAsStreamAsync();
@@ -227,7 +227,7 @@ namespace palikohrnne_web_app.Api
 
         public async Task DeleteRessource(int id)
         {
-            using var httpResponse = await Client.DeleteAsync("/ressources/" + id);
+            using var httpResponse = await Client.DeleteAsync("/api/ressources/" + id);
             httpResponse.EnsureSuccessStatusCode();
         }
         #endregion
@@ -267,12 +267,12 @@ namespace palikohrnne_web_app.Api
                 Encoding.UTF8,
                 "application/json");
 
-            using var httpResponse = await Client.PostAsync("/typeRelations", typeRelationJson);
+            using var httpResponse = await Client.PostAsync("/api/typeRelations", typeRelationJson);
             httpResponse.EnsureSuccessStatusCode();
         }
         public async Task DeleteTypeRelation(int id)
         {
-            using var httpResponse = await Client.DeleteAsync("/typeRelations/" + id);
+            using var httpResponse = await Client.DeleteAsync("/api/typeRelations/" + id);
             httpResponse.EnsureSuccessStatusCode();
         }
         #endregion
@@ -316,12 +316,12 @@ namespace palikohrnne_web_app.Api
                 Encoding.UTF8,
                 "application/json");
 
-            using var httpResponse = await Client.PostAsync("/typeRessources", typeRessourceJson);
+            using var httpResponse = await Client.PostAsync("/api/typeRessources", typeRessourceJson);
             httpResponse.EnsureSuccessStatusCode();
         }
         public async Task DeleteTypeRessource(int id)
         {
-            using var httpResponse = await Client.DeleteAsync("/typeRessources/" + id);
+            using var httpResponse = await Client.DeleteAsync("/api/typeRessources/" + id);
             httpResponse.EnsureSuccessStatusCode();
         }
         #endregion
@@ -367,12 +367,12 @@ namespace palikohrnne_web_app.Api
                 Encoding.UTF8,
                 "application/json");
 
-            using var httpResponse = await Client.PostAsync("/commentaires", typeRessourceJson);
+            using var httpResponse = await Client.PostAsync("/api/commentaires", typeRessourceJson);
             httpResponse.EnsureSuccessStatusCode();
         }
         public async Task DeleteCommentaire(int id)
         {
-            using var httpResponse = await Client.DeleteAsync("/commentaires/" + id);
+            using var httpResponse = await Client.DeleteAsync("/api/commentaires/" + id);
             httpResponse.EnsureSuccessStatusCode();
         }
         #endregion
@@ -395,7 +395,7 @@ namespace palikohrnne_web_app.Api
                 Encoding.UTF8,
                 "application/json");
 
-            using var httpResponse = await Client.PostAsync("/voteRessources", likeRessourceJson);
+            using var httpResponse = await Client.PostAsync("/api/voteRessources", likeRessourceJson);
         }
         /// <summary>
         /// Ajoute un vote au commentaire cible
@@ -413,16 +413,16 @@ namespace palikohrnne_web_app.Api
                 Encoding.UTF8,
                 "application/json");
 
-            using var httpResponse = await Client.PostAsync("/voteCommentaire", likeCommentaireJson);
+            using var httpResponse = await Client.PostAsync("/api/voteCommentaire", likeCommentaireJson);
         }
 
         public async Task DeleteLikeCommentaire(int idCitoyen, int idCommentaire)
         {
-            using var httpResponse = await Client.DeleteAsync("/voteCommentaire/" + idCitoyen + "/" + idCommentaire);
+            using var httpResponse = await Client.DeleteAsync("/api/voteCommentaire/" + idCitoyen + "/" + idCommentaire);
         }
         public async Task DeleteLikeRessource(int idCitoyen, int idRessource)
         {
-            using var httpResponse = await Client.DeleteAsync("/voteRessources/" + idCitoyen + "/" + idRessource);
+            using var httpResponse = await Client.DeleteAsync("/api/voteRessources/" + idCitoyen + "/" + idRessource);
         }
         #endregion
 
@@ -462,7 +462,7 @@ namespace palikohrnne_web_app.Api
                 Encoding.UTF8,
                 "application/json");
 
-            using var httpResponse = await Client.PostAsync("/tags", rangJson);
+            using var httpResponse = await Client.PostAsync("/api/tags", rangJson);
             httpResponse.EnsureSuccessStatusCode();
 
             using var responseStream = await httpResponse.Content.ReadAsStreamAsync();
@@ -475,7 +475,7 @@ namespace palikohrnne_web_app.Api
 
         public async Task LierTagEtRessource(int idRessource, int idTag)
         {
-            using var httpResponse = await Client.PostAsync("/ressources/tags/" + idRessource + "/" + idTag, null);
+            using var httpResponse = await Client.PostAsync("/api/ressources/tags/" + idRessource + "/" + idTag, null);
             httpResponse.EnsureSuccessStatusCode();
         }
         #endregion

@@ -190,5 +190,29 @@ namespace palikohrnne_web_app.Controllers
             await _cubeService.CreateCommentaire(commentaire);
             return RedirectToAction("Details", new { id = commentaire.RessourceID });
         }
+
+        [HttpPost]
+        public async Task LikerRessource(int CitoyenID, int RessourceID)
+        {
+            await _cubeService.LikerRessource(CitoyenID, RessourceID);
+        }
+        [HttpPost]
+        public async Task<IActionResult> LikerCommentaire(int CitoyenID, int CommentaireID)
+        {
+            await _cubeService.LikerCommentaire(CitoyenID, CommentaireID);
+            return Ok();
+        }
+        [HttpPost]
+        public async Task<IActionResult> UnlikerCommentaire(int CitoyenID, int CommentaireID)
+        {
+            await _cubeService.DeleteLikeCommentaire(CitoyenID, CommentaireID);
+            return Ok();
+        }
+        [HttpPost]
+        public async Task<IActionResult> UnlikerRessource(int CitoyenID, int RessourceID)
+        {
+            await _cubeService.DeleteLikeRessource(CitoyenID, RessourceID);
+            return Ok();
+        }
     }
 }

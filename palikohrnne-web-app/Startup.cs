@@ -26,6 +26,11 @@ namespace palikohrnne_web_app
         {
             services.AddControllersWithViews();
             services.AddHttpClient<CubesService>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin());
+            });
             System.Diagnostics.Debug.WriteLine("http://localhost:46161");
         }
 
