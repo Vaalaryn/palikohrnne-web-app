@@ -1,8 +1,9 @@
 ﻿@model ListeRessourceModel
 @{
-    ViewData["Title"] = "Index";
-    var idCategorie = ViewContext.RouteData.Values["id"];
+    ViewData["Title"] = "ListeRessource";
+    Layout = "~/Views/Shared/_LayoutBackOffice.cshtml";
 }
+
 @section Styles{
     <link href="~/lib/select2/css/select2.css" rel="stylesheet" />
     <link href="~/css/ressource-list.css" rel="stylesheet" />
@@ -14,27 +15,19 @@
 }
 <div style="padding: 0 50px 0 50px">
     <div class="toolbar">
-        <a asp-action="PublierRessource"
-           asp-route-id="@idCategorie"
-           class="btn btn-success text-light">
-            Publier une ressource dans cette catégorie
-        </a>
         <span class="ml-5">Méthode de tri : </span>
         <div class="btn-group ml-3" role="group" aria-label="Basic outlined example">
-            <a asp-action="Index"
-               asp-route-id="@idCategorie"
+            <a asp-action="ListeRessource"
                asp-route-order="recents"
                class="btn btn-outline-success @(ViewBag.Order == "recents" || String.IsNullOrEmpty(ViewBag.Order)? "active" : "")">
                 Les plus récent
             </a>
-            <a asp-action="Index"
-               asp-route-id="@idCategorie"
+            <a asp-action="ListeRessource"
                asp-route-order="reponsesDesc"
                class="btn btn-outline-success @(ViewBag.Order == "reponsesDesc"? "active" : "")">
                 Le plus de réponses
             </a>
-            <a asp-action="Index"
-               asp-route-id="@idCategorie"
+            <a asp-action="ListeRessource"
                asp-route-order="reponsesAsc"
                class="btn btn-outline-success @(ViewBag.Order == "reponsesAsc"? "active" : "")">
                 Le moins de réponses
@@ -44,7 +37,7 @@
             <button id="showFilter" class="btn btn-success text-light"><i class="fa fa-cog mr-2"></i>Filtrer</button>
         </div>
         <div class="filtres-container" style="display: none;">
-            <form method="get" asp-action="Index">
+            <form method="get" asp-action="ListeRessource">
                 <input type="hidden" name="order" value="@ViewBag.Order" />
                 <div class="filtres-body">
                     <div class="filtre-section">
