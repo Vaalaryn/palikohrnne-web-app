@@ -105,7 +105,7 @@ namespace palikohrnne_web_app.Api
                 Encoding.UTF8,
                 "application/json");
 
-            using var httpResponse = await Client.PostAsync("/api/citoyens", citoyenJson);
+            using var httpResponse = await Client.PostAsync("/citoyens", citoyenJson);
             httpResponse.EnsureSuccessStatusCode();
         }
         public async Task UpdateCitoyen(Citoyen citoyen)

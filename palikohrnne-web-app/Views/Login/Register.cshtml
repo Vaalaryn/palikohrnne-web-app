@@ -1,84 +1,130 @@
-﻿@model palikohrnne_web_app.Models.Citoyen
-@using palikohrnne_web_app.Api
+﻿@model Citoyen 
+@{ 
+     Layout = null;
+ }
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <title>Portal - Bootstrap 5 Admin Dashboard Template For Developers</title>
 
-@{
-    ViewData["Title"] = "Register";
-}
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<h1>Register</h1>
+    <meta name="description" content="Portal - Bootstrap 5 Admin Dashboard Template For Developers">
+    <meta name="author" content="Xiaoying Riley at 3rd Wave Media">
+    <link rel="shortcut icon" href="favicon.ico">
 
-<h4>Citoyen</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Register">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Adresse" class="control-label"></label>
-                <input asp-for="Adresse" class="form-control" />
-                <span asp-validation-for="Adresse" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ville" class="control-label"></label>
-                <input asp-for="Ville" class="form-control" />
-                <span asp-validation-for="Ville" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CodePostal" class="control-label"></label>
-                <input asp-for="CodePostal" class="form-control" />
-                <span asp-validation-for="CodePostal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Genre" class="control-label"></label>
-                <input asp-for="Genre" class="form-control" />
-                <span asp-validation-for="Genre" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Mail" class="control-label"></label>
-                <input asp-for="Mail" class="form-control" />
-                <span asp-validation-for="Mail" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MotDePasse" class="control-label"></label>
-                <input asp-for="MotDePasse" class="form-control" />
-                <span asp-validation-for="MotDePasse" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Nom" class="control-label"></label>
-                <input asp-for="Nom" class="form-control" />
-                <span asp-validation-for="Nom" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Prenom" class="control-label"></label>
-                <input asp-for="Prenom" class="form-control" />
-                <span asp-validation-for="Prenom" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pseudo" class="control-label"></label>
-                <input asp-for="Pseudo" class="form-control" />
-                <span asp-validation-for="Pseudo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telephone" class="control-label"></label>
-                <input asp-for="Telephone" class="form-control" />
-                <span asp-validation-for="Telephone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RangID" class="control-label"></label>
-                <input asp-for="RangID" class="form-control" />
-                <span asp-validation-for="RangID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+    <!-- FontAwesome JS-->
+    <script defer src="~/assets/plugins/fontawesome/js/all.min.js"></script>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <!-- App CSS -->
+    <link id="theme-style" rel="stylesheet" href="~/assets/css/portal.css">
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+</head>
+
+<body class="app app-signup p-0" style="position: fixed;">
+    <div class="row g-0 app-auth-wrapper">
+        <div class="col-12 col-md-7 col-lg-6 auth-main-col text-center p-5">
+            <div class="d-flex flex-column align-content-end">
+                <div class="app-auth-body mx-auto">
+                    <div class="app-auth-branding mb-4"><a class="app-logo" href="index.html"><img class="logo-icon mr-2" src="~/assets/images/app-logo.svg" alt="logo"></a></div>
+                    <h2 class="auth-heading text-center mb-4">Inscription</h2>
+
+                    <div class="auth-form-container text-left mx-auto">
+                        <form method="post" class="auth-form auth-signup-form" asp-action="Register" asp-controller="Login">
+                            <div class="mb-3">
+                                <span style="color: black;">Informations de connexion</span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="sr-only" for="signup-email">Pseudo</label>
+                                <input asp-for="Pseudo" type="text" class="form-control signup-name" placeholder="Pseudo" required="required">
+                            </div>
+                            <div class="mb-3">
+                                <label class="sr-only" for="signup-email">Mot de passe</label>
+                                <input asp-for="MotDePasse" type="password" class="form-control signup-name" placeholder="Mot de passe" required="required">
+                            </div>
+                            <div class="mb-3">
+                                <label class="sr-only" for="signup-email">Mot de passe</label>
+                                <input name="Confirm" type="password" class="form-control signup-name" placeholder="Confirmer" required="required">
+                            </div>
+                            <div class="mb-3">
+                                <span style="color: black;">Coordonnées</span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="sr-only" for="signup-email">Nom</label>
+                                <input asp-for="Nom" type="text" class="form-control signup-name" placeholder="Nom" required="required">
+                            </div>
+                            <div class="mb-3">
+                                <label class="sr-only" for="signup-email">Nom</label>
+                                <input asp-for="Prenom" type="text" class="form-control signup-name" placeholder="Prenom" required="required">
+                            </div>
+                            <div class="email mb-3">
+                                <label class="sr-only" for="signup-email">Nom</label>
+                                <input asp-for="Mail" type="email" class="form-control signup-name" placeholder="Email" required="required">
+                            </div>
+                            <div class="mb-3">
+                                <label class="sr-only" for="signup-email">Nom</label>
+                                <input asp-for="Ville" type="text" class="form-control signup-name" placeholder="Ville" required="required">
+                            </div>
+                            <div class="mb-3">
+                                <label class="sr-only" for="signup-email">Nom</label>
+                                <input asp-for="CodePostal" type="text" class="form-control signup-name" placeholder="Code postal" required="required">
+                            </div>
+                            <div class="mb-3">
+                                <label class="sr-only" for="signup-email">Nom</label>
+                                <input asp-for="Telephone" type="tel" class="form-control signup-name" placeholder="Telephone" required="required">
+                            </div>
+                            <div class="mb-3">
+                                <label class="sr-only" for="signup-email">Nom</label>
+                                <input asp-for="Adresse" type="text" class="form-control signup-name" placeholder="Adresse" required="required">
+                            </div>
+
+                            <div style="display: flex; flex-direction: row; justify-content: space-evenly; align-items: center;" class="mb-3">
+                                <label asp-for="Genre">Homme</label>
+                                <input type="radio" value="M" asp-for="Genre" />
+                                <label asp-for="Genre">Femme</label>
+                                <input type="radio" value="F" asp-for="Genre" />
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn app-btn-primary btn-block theme-btn mx-auto">Inscription</button>
+                            </div>
+                        </form><!--//auth-form-->
+
+                        <div class="auth-option text-center pt-5">Déjà inscrit ? <a class="text-link" asp-action="Login" asp-controller="Login">Se connecter</a></div>
+                    </div><!--//auth-form-container-->
+
+
+
+                </div><!--//auth-body-->
+
+                <footer class="app-auth-footer">
+                    <div class="container text-center py-3">
+                        <!--/* This template is free as long as you keep the footer attribution link. If you'd like to use the template without the attribution link, you can buy the commercial license via our website: themes.3rdwavemedia.com Thank you for your support. :) */-->
+
+                    </div>
+                </footer><!--//app-auth-footer-->
+            </div><!--//flex-column-->
+        </div><!--//auth-main-col-->
+        <div class="col-12 col-md-5 col-lg-6 h-100 auth-background-col">
+            <div class="auth-background-holder">
+            </div>
+            <div class="auth-background-mask"></div>
+            <div class="auth-background-overlay p-3 p-lg-5">
+                <div class="d-flex flex-column align-content-end h-100">
+                    <div class="h-100"></div>
+                    <div class="overlay-content p-3 p-lg-4 rounded">
+                        <h5 class="mb-3 overlay-title">Explore Portal Admin Template</h5>
+                        <div>Portal is a free Bootstrap 5 admin dashboard template. You can download and view the template license <a href="https://themes.3rdwavemedia.com/bootstrap-templates/admin-dashboard/portal-free-bootstrap-admin-dashboard-template-for-developers/">here</a>.</div>
+                    </div>
+                </div>
+            </div><!--//auth-background-overlay-->
+        </div><!--//auth-background-col-->
+
+    </div><!--//row-->
+
+
+</body>
+</html>
+

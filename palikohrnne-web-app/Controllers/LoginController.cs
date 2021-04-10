@@ -58,9 +58,8 @@ namespace palikohrnne_web_app.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RegisterAsync(Citoyen obj)
         {
-            
             await _cubesService.CreateCitoyen(obj);
-            return View();
+            return RedirectToAction("Login");
         }
 
         public IActionResult Login()
