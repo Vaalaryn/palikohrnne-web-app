@@ -4,19 +4,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.JsonWebTokens;
 using palikohrnne_web_app.Api;
 using palikohrnne_web_app.Models;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace palikohrnne_web_app.Controllers
 {
-    public class AccountController : Controller
+    public class LoginController : Controller
     {
 
         private readonly CubesService _cubesService;
@@ -28,10 +27,11 @@ namespace palikohrnne_web_app.Controllers
             public string FullName { get; set; }
             public string EMail { get; set; }
             public int CitoyenID { get; set; }
+            public string Pseudo { get; set; }
         }
 
-        private readonly ILogger<AccountController> _logger;
-        public AccountController(CubesService cubesService, ILogger<AccountController> logger)
+        private readonly ILogger<LoginController> _logger;
+        public LoginController(CubesService cubesService, ILogger<LoginController> logger)
         {
             _cubesService = cubesService;
             _logger = logger;
@@ -95,13 +95,11 @@ namespace palikohrnne_web_app.Controllers
                     new Claim(JwtRegisteredClaimNames.UniqueName, user.FullName),
                     new Claim(ClaimTypes.Name, user.EMail),
                     new Claim("FullName", user.FullName),
+                    new Claim("Pseudo", user.Pseudo),
                     new Claim("ID", user.CitoyenID.ToString()),
                     new Claim(ClaimTypes.Role, user.Rang),
                 };
 
-                Console.WriteLine(user.FullName);
-                Console.WriteLine(user.EMail);
-                Console.WriteLine(user.Rang);
 
                 var claimsIdentity = new ClaimsIdentity(
                     claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -148,14 +146,19 @@ namespace palikohrnne_web_app.Controllers
                         Rang = rangName,
                         FullName = citoyen.Nom + " " + citoyen.Prenom,
                         EMail = citoyen.Mail,
-                        CitoyenID = citoyen.ID
-                        
-
+                        CitoyenID = citoyen.ID,
+                        Pseudo = citoyen.Pseudo
                     };
                 }
             }
 
             return null;
-        } 
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

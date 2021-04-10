@@ -11,35 +11,27 @@ using System.Threading.Tasks;
 
 namespace palikohrnne_web_app.Controllers
 {
-    public class ProfileController : Controller
+    public class ProfilController : Controller
     {
         private readonly CubesService _cubesService;
-        private readonly ILogger<ProfileController> _logger;
+        private readonly ILogger<ProfilController> _logger;
 
-        public ProfileController(CubesService cubesService, ILogger<ProfileController> logger)
+        public ProfilController(CubesService cubesService, ILogger<ProfilController> logger)
         {
             _cubesService = cubesService;
             _logger = logger;
         }
 
-        
-        public async Task<IActionResult> IndexAsync()
-        {
-            var citoyens = await _cubesService.GetAllCitoyens();
-            return View(citoyens);
-        }
-
-        public async Task<IActionResult> DetailAsync(int id)
+        public async Task<IActionResult> Detail(int id)
         {
             var citoyen = await _cubesService.GetCitoyenById(id);
             return View(citoyen);
         }
 
         [Authorize]
-        public async Task<IActionResult> SelfDetailAsync()
+        public async Task<IActionResult> ProfilPerso(int id)
         {
-            var selfId = Int32.Parse(User.FindFirst("ID").Value);
-            var citoyen = await _cubesService.GetCitoyenById(selfId);
+            var citoyen = await _cubesService.GetCitoyenById(id);
             return View(citoyen);
         }
 
