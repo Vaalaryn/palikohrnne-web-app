@@ -14,12 +14,10 @@ namespace palikohrnne_web_app.Controllers
     public class ProfilController : Controller
     {
         private readonly CubesService _cubesService;
-        private readonly ILogger<ProfilController> _logger;
 
-        public ProfilController(CubesService cubesService, ILogger<ProfilController> logger)
+        public ProfilController(CubesService cubesService)
         {
             _cubesService = cubesService;
-            _logger = logger;
         }
 
         public async Task<IActionResult> Detail(int id)
@@ -42,7 +40,7 @@ namespace palikohrnne_web_app.Controllers
             var selfId = Int32.Parse(User.FindFirst("ID").Value);
             var citoyenConnected = await _cubesService.GetCitoyenById(selfId);
 
-            Citoyen modifiedCitoyen = new Citoyen()
+            Citoyen modifiedCitoyen = new()
             {
                 ID = selfId,
                 CreatedAt = citoyenConnected.CreatedAt,

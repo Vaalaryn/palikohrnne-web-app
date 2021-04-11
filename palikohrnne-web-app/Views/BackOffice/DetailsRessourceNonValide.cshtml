@@ -5,7 +5,6 @@
     int idCitoyenConnected = 1; //TODO: Récupérer le citoyen connecté
 
     bool citoyenLikedThisRessource = Model.CitoyenVoted.Where(x => x.ID == idCitoyenConnected).Any();
-    int count = 2;
 }
 @section Styles{
     <link href="~/css/ressource-list.css" rel="stylesheet" />

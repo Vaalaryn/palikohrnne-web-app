@@ -60,9 +60,6 @@ namespace palikohrnne_web_app.Api
 
             response.EnsureSuccessStatusCode();
 
-
-            HttpRequestException test = new HttpRequestException();
-
             using var responseStream = await response.Content.ReadAsStreamAsync();
             StreamReader reader = new(responseStream);
             string text = reader.ReadToEnd();

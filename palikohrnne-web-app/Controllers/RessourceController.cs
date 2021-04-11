@@ -119,7 +119,7 @@ namespace palikohrnne_web_app.Controllers
             ViewBag.Tags = new SelectList(tags, "ID", "Nom");
 
             //Création du model
-            ListeRessourceModel model = new ListeRessourceModel
+            ListeRessourceModel model = new()
             {
                 Ressources = ressources.Where(x => x.Categorie.ID == id && x.ValidationAdmin == true).ToList(),
                 Filtres = filtres
@@ -229,7 +229,7 @@ namespace palikohrnne_web_app.Controllers
             ViewBag.Tags = new SelectList(tags, "ID", "Nom");
             int citoyenID = Int32.Parse(((ClaimsIdentity)User.Identity).GetSpecificClaim("ID"));
             //Création du model
-            ListeRessourceModel model = new ListeRessourceModel
+            ListeRessourceModel model = new()
             {
                 Ressources = ressources.Where(x =>  x.CitoyenID == citoyenID).ToList(),
                 Filtres = filtres
@@ -286,7 +286,7 @@ namespace palikohrnne_web_app.Controllers
             ViewBag.Categories = new SelectList(categorieWithStats.Select(x => x.Categorie), "ID", "Nom", ressource.CategorieID);
             ViewBag.Diffusions = new SelectList(typesRelations.Select(x => x.Nom).ToList(), "ID", "Nom");
 
-            List<Tag> tagsList = new List<Tag>();
+            List<Tag> tagsList = new();
 
             IEnumerable<string> tagsFrom = Request.Form["Tags[]"].Select(x => x.ToLower()).ToList();
             IEnumerable<Tag> tagsFromApi = await _cubeService.GetAllTags();
