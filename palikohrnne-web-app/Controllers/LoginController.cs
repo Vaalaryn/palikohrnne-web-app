@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.JsonWebTokens;
 using palikohrnne_web_app.Api;
+using palikohrnne_web_app.Extensions;
 using palikohrnne_web_app.Models;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace palikohrnne_web_app.Controllers
     {
 
         private readonly CubesService _cubesService;
+
 
         public class LoginSate
         {

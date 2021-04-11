@@ -1,14 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using palikohrnne_web_app.Api;
+using palikohrnne_web_app.Extensions;
 using palikohrnne_web_app.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace palikohrnne_web_app.Controllers
 {
+    [Authorize]
     public class BackOfficeController : Controller
     {
         private readonly CubesService _cubesService;
@@ -21,14 +25,15 @@ namespace palikohrnne_web_app.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
 
         public async Task<IActionResult> ListeRessource(string order, FiltresModelRessources filtres)
         {
-            IEnumerable<Ressource> ressources = await _cubesService.GetAllRessources();
-            IEnumerable<TypeRelation> typesRelations = await _cubesService.GetAllTypeRelations();
-            IEnumerable<Tag> tags = await _cubesService.GetAllTags();
+            IEnumerable<Ressource> ressources = await _cubesService.Authorize(User).GetAllRessources();
+            IEnumerable<TypeRelation> typesRelations = await _cubesService.Authorize(User).GetAllTypeRelations();
+            IEnumerable<Tag> tags = await _cubesService.Authorize(User).GetAllTags();
 
             if (string.IsNullOrEmpty(filtres.AnswersFilter))
             {
@@ -135,42 +140,42 @@ namespace palikohrnne_web_app.Controllers
 
         public async Task<IActionResult> ListCitoyens()
         {
-            return View(await _cubesService.GetAllCitoyens());
+            return View(await _cubesService.Authorize(User).GetAllCitoyens());
         }
 
         public async Task<IActionResult> CitoyenInfo(int id)
         {
-            var model = await _cubesService.GetCitoyenById(id);
-            ViewBag.Rangs = new SelectList(await _cubesService.GetAllRangs(), "ID", "Nom", model.RangID);
+            var model = await _cubesService.Authorize(User).GetCitoyenById(id);
+            ViewBag.Rangs = new SelectList(await _cubesService.Authorize(User).GetAllRangs(), "ID", "Nom", model.RangID);
             return View(model);
         }
 
         public async Task<IActionResult> ModifierRang(int id, int rangId)
         {
-            Citoyen citoyen = await _cubesService.GetCitoyenById(id);
+            Citoyen citoyen = await _cubesService.Authorize(User).GetCitoyenById(id);
             citoyen.RangID = rangId;
-            await _cubesService.UpdateCitoyen(citoyen);
+            await _cubesService.Authorize(User).UpdateCitoyen(citoyen);
 
             return RedirectToAction("CitoyenInfo", new { id = id });
         }
 
         public async Task<IActionResult> DeleteActivateCitoyen(int id)
         {
-            Citoyen citoyen = await _cubesService.GetCitoyenById(id);
+            Citoyen citoyen = await _cubesService.Authorize(User).GetCitoyenById(id);
 
-            await _cubesService.DeleteCitoyen(id);
+            await _cubesService.Authorize(User).DeleteCitoyen(id);
             return RedirectToAction("CitoyenInfo", new { id = id });
         }
 
         public async Task<IActionResult> ValidationRessourceList()
         {
-            var model = await _cubesService.GetAllRessources();
+            var model = await _cubesService.Authorize(User).GetAllRessources();
             return View(model.Where(x => !x.ValidationAdmin.HasValue));
         }
 
         public async Task<IActionResult> DetailsRessourceNonValide(int id)
         {
-            var model = await _cubesService.GetRessourceById(id);
+            var model = await _cubesService.Authorize(User).GetRessourceById(id);
 
             if (model.ValidationAdmin.HasValue)
             {
@@ -182,9 +187,9 @@ namespace palikohrnne_web_app.Controllers
         [HttpPost]
         public async Task<IActionResult> ValidationRessource(int id, string decision)
         {
-            Ressource ressource = await _cubesService.GetRessourceById(id);
+            Ressource ressource = await _cubesService.Authorize(User).GetRessourceById(id);
             ressource.ValidationAdmin = decision == "Valider";
-            await _cubesService.UpdateRessource(ressource);
+            await _cubesService.Authorize(User).UpdateRessource(ressource);
 
             return RedirectToAction("ValidationRessourceList");
         }
