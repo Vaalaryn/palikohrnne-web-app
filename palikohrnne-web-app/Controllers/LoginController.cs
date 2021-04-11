@@ -88,6 +88,12 @@ namespace palikohrnne_web_app.Controllers
                     return View();
                 }
 
+                LoginResponseModel loginResponse = await _cubesService.SeConnecter(new Citoyen
+                {
+                    Mail = login.UserEmail,
+                    MotDePasse = login.UserPwd
+                });
+
                 #region snippet1
                 var claims = new List<Claim>
                 {
@@ -96,6 +102,7 @@ namespace palikohrnne_web_app.Controllers
                     new Claim("FullName", user.FullName),
                     new Claim("Pseudo", user.Pseudo),
                     new Claim("ID", user.CitoyenID.ToString()),
+                    new Claim("Token", loginResponse.token),
                     new Claim(ClaimTypes.Role, user.Rang),
                 };
 

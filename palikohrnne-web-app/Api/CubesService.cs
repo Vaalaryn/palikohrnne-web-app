@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -16,16 +17,40 @@ namespace palikohrnne_web_app.Api
     public class CubesService
     {
         public HttpClient Client { get; }
-        private string Token;
         public CubesService(HttpClient client)
         {
             //client.BaseAddress = new Uri("http://palikorne.brice-bitot.fr/");
             client.BaseAddress = new Uri("http://localhost:8081/");
             Client = client;
-            //TODO: Récupérer le token à la connexion
-            Token = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYWlsIjoiY2l0b3kxQGdtYWlsLnRvdG8iLCJSYW5nSUQiOjQsImV4cCI6MTYxODE0MTU3Mywib3JpZ19pYXQiOjE2MTgxMDU1NzN9.A4wo1kQe9Cgjs8ibdJ6Nfp9S5X7K9eAy5KkY_sCec_g";
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
         }
+
+        public void RenseignerToken(string token)
+        {
+            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        }
+
+        #region Connexion
+        public async Task<LoginResponseModel> SeConnecter(Citoyen citoyen)
+        {
+            var rangJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new { 
+                citoyen.Mail,
+                Password = citoyen.MotDePasse
+            }),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PostAsync("/login", rangJson);
+            httpResponse.EnsureSuccessStatusCode();
+
+            using var responseStream = await httpResponse.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+
+            var loginResponse = JObject.Parse(text).ToString();
+            return JsonConvert.DeserializeObject<LoginResponseModel>(loginResponse);
+        }
+        #endregion
+
         //Rangs
         #region
         public async Task<IEnumerable<Rang>> GetAllRangs()
@@ -74,7 +99,7 @@ namespace palikohrnne_web_app.Api
         public async Task<IEnumerable<Citoyen>> GetAllCitoyens()
         {
             var response = await Client.GetAsync(
-                "/api/citoyens");
+                "/citoyens");
 
             response.EnsureSuccessStatusCode();
 
@@ -522,7 +547,7 @@ namespace palikohrnne_web_app.Api
             string text = reader.ReadToEnd();
 
             var categorieResponse = JObject.Parse(text).SelectToken("data").ToString();
-            return JsonConvert.DeserializeObject<Categorie>(categorieResponse); ;
+            return JsonConvert.DeserializeObject<Categorie>(categorieResponse);
         }
         #endregion
     }

@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using palikohrnne_web_app.Api;
 using palikohrnne_web_app.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
-
+using palikohrnne_web_app.Extensions;
 namespace palikohrnne_web_app.Controllers
 {
     public class RessourceController : Controller
@@ -22,7 +24,7 @@ namespace palikohrnne_web_app.Controllers
             IEnumerable<TypeRelation> typesRelations = await _cubeService.GetAllTypeRelations();
             IEnumerable<Tag> tags = await _cubeService.GetAllTags();
 
-            if(string.IsNullOrEmpty(filtres.AnswersFilter))
+            if (string.IsNullOrEmpty(filtres.AnswersFilter))
             {
                 filtres.AnswersFilter = "all-answers";
             }
@@ -71,7 +73,7 @@ namespace palikohrnne_web_app.Controllers
                     }
             }
             //Filtre cercle social
-            if((filtres.TypeRelationID != null) && (filtres.TypeRelationID.Any()))
+            if ((filtres.TypeRelationID != null) && (filtres.TypeRelationID.Any()))
             {
                 ressources = ressources.Where(x => filtres.TypeRelationID.Contains(x.TypeRelationID));
             }
@@ -114,7 +116,7 @@ namespace palikohrnne_web_app.Controllers
             //Cache
             ViewBag.Order = order;
             ViewBag.TypesRelations = typesRelations;
-            ViewBag.Tags = new SelectList(tags,"ID","Nom");
+            ViewBag.Tags = new SelectList(tags, "ID", "Nom");
 
             //Création du model
             ListeRessourceModel model = new ListeRessourceModel
@@ -130,8 +132,12 @@ namespace palikohrnne_web_app.Controllers
             return View(await _cubeService.GetRessourceById(id));
         }
 
+        [Authorize]
         public async Task<IActionResult> PublierRessource(int? id)
         {
+            var claim = ((ClaimsIdentity)User.Identity);
+            _cubeService.RenseignerToken(claim.GetSpecificClaim("Token"));
+
             IEnumerable<Tag> tags = await _cubeService.GetAllTags();
             IEnumerable<CategorieWithStats> categorieWithStats = await _cubeService.GetAllCategoriesWithStats();
             IEnumerable<TypeRelation> typesRelations = await _cubeService.GetAllTypeRelations();
@@ -143,9 +149,16 @@ namespace palikohrnne_web_app.Controllers
 
             return View();
         }
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> PublierRessource(Ressource ressource)
         {
+            var claim = ((ClaimsIdentity)User.Identity);
+            _cubeService.RenseignerToken(claim.GetSpecificClaim("Token"));
+
+            ressource.CitoyenID = Int32.Parse(claim.GetSpecificClaim("ID"));
+
             IEnumerable<Tag> tags = await _cubeService.GetAllTags();
             IEnumerable<CategorieWithStats> categorieWithStats = await _cubeService.GetAllCategoriesWithStats();
             IEnumerable<TypeRelation> typesRelations = await _cubeService.GetAllTypeRelations();

@@ -1,8 +1,6 @@
 ﻿@model Ressource
 @{
     ViewData["Title"] = "PublierRessource";
-    //TODO: Récupèrer le citoyen connecté
-    int CitoyenID = 8;
 }
 @section Styles{
     <link href="~/lib/simditor/styles/simditor.css" rel="stylesheet" />
@@ -24,7 +22,6 @@
         </div>
         <div class="body-form">
             <form method="post">
-                <input type="hidden" value="@CitoyenID" asp-for="CitoyenID">
                 <div class="row">
                     <div class="col">
                         <select id="diffusion" class="diffusion" name="TypeRelationID" asp-items="ViewBag.Diffusions"></select>
