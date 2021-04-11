@@ -298,6 +298,54 @@ namespace palikohrnne_web_app.Api
             using var httpResponse = await Client.DeleteAsync("/api/typeRelations/" + id);
             httpResponse.EnsureSuccessStatusCode();
         }
+
+        public async Task<IEnumerable<RelationCitoyen>> GetRelation(int id)
+        {
+            var response = await Client.GetAsync(
+                 "/api/relations/" + id);
+
+            response.EnsureSuccessStatusCode();
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+            var relationJson = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<IEnumerable<RelationCitoyen>>(relationJson);
+        }
+
+        public async Task<IEnumerable<RelationCitoyen>> GetRelationCitoyenIn(int id)
+        {
+            var response = await Client.GetAsync(
+                 "/api/inrelations/" + id);
+
+            response.EnsureSuccessStatusCode();
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+            var relationJson = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<IEnumerable<RelationCitoyen>>(relationJson);
+        }
+
+        public async Task AjouterRelation(RelationCitoyen relationCitoyen)
+        {
+            var typeRelationJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                relationCitoyen.CitoyenID,
+                relationCitoyen.CitoyenCibleID,
+                relationCitoyen.TypeRelationID
+            }),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PostAsync("/api/relations", typeRelationJson);
+            httpResponse.EnsureSuccessStatusCode();
+        }
+        public async Task DeleteRelation(int id)
+        {
+            using var httpResponse = await Client.DeleteAsync("/api/relations/" + id);
+            httpResponse.EnsureSuccessStatusCode();
+        }
         #endregion
 
         //TypeRessource

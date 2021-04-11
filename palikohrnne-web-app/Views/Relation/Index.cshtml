@@ -1,0 +1,202 @@
+﻿@model RelationsModel
+@{
+    ViewData["Title"] = "Index";
+
+    string BadgeRangClasse(string rang)
+    {
+        string badgeClasse = "bg-success";
+        switch (rang)
+        {
+            case "Ami":
+                {
+                    badgeClasse = "bg-success";
+                    break;
+                }
+            case "Collègue":
+                {
+                    badgeClasse = "bg-warning";
+                    break;
+                }
+            case "Famille":
+                {
+                    badgeClasse = "bg-danger";
+                    break;
+                }
+            default:
+                {
+                    badgeClasse = "bg-dark";
+                    break;
+                }
+        }
+        return badgeClasse;
+    }
+}
+
+
+
+<div class="row g-3 mb-4 align-items-center justify-content-between">
+    <div class="col-auto">
+        <h1 class="app-page-title mb-0">Relations</h1>
+    </div>
+</div><!--//row-->
+
+
+<nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
+    <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" data-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true">Tous</a>
+    <a class="flex-sm-fill text-sm-center nav-link" id="orders-paid-tab" data-toggle="tab" href="#orders-paid" role="tab" aria-controls="orders-paid" aria-selected="false">Collègues</a>
+    <a class="flex-sm-fill text-sm-center nav-link" id="orders-pending-tab" data-toggle="tab" href="#orders-pending" role="tab" aria-controls="orders-pending" aria-selected="false">Famille</a>
+    <a class="flex-sm-fill text-sm-center nav-link" id="orders-cancelled-tab" data-toggle="tab" href="#orders-cancelled" role="tab" aria-controls="orders-cancelled" aria-selected="false">Amis</a>
+    <a class="flex-sm-fill text-sm-center nav-link" id="demandes-tab" data-toggle="tab" href="#demandes" role="tab" aria-controls="orders-cancelled" aria-selected="false">Demandes de relation</a>
+</nav>
+
+
+<div class="tab-content" id="orders-table-tab-content">
+    <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+        <div class="app-card app-card-orders-table shadow-sm mb-5">
+            <div class="app-card-body">
+                <div class="table-responsive">
+                    <table class="table app-table-hover mb-0 text-left">
+                        <thead>
+                            <tr>
+                                <th class="cell">Nom et prénom</th>
+                                <th class="cell">Pseudo</th>
+                                <th class="cell">Type de relation</th>
+                                <th class="cell"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var relation in Model.Relations)
+                            {
+                                <tr>
+                                    <td class="cell"><span class="truncate">@relation.CitoyenCible.Nom @relation.CitoyenCible.Prenom</span></td>
+                                    <td class="cell">@relation.CitoyenCible.Pseudo</td>
+                                    <td class="cell"><span class="badge @BadgeRangClasse(relation.TypeRelation.Nom)">@relation.TypeRelation.Nom</span></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Detail" asp-route-id="@relation.CitoyenCibleID">Voir</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!--//table-responsive-->
+
+            </div><!--//app-card-body-->
+        </div><!--//app-card-->
+    </div><!--//tab-pane-->
+
+    <div class="tab-pane fade" id="orders-paid" role="tabpanel" aria-labelledby="orders-paid-tab">
+        <div class="app-card app-card-orders-table mb-5">
+            <div class="app-card-body">
+                <div class="table-responsive">
+                    <table class="table app-table-hover mb-0 text-left">
+                        <thead>
+                            <tr>
+                                <th class="cell">Nom et prénom</th>
+                                <th class="cell">Pseudo</th>
+                                <th class="cell">Type de relation</th>
+                                <th class="cell"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var relation in Model.Relations.Where(x => x.TypeRelation.Nom == "Collègue"))
+                            {
+                                <tr>
+                                    <td class="cell"><span class="truncate">@relation.CitoyenCible.Nom @relation.CitoyenCible.Prenom</span></td>
+                                    <td class="cell">@relation.CitoyenCible.Pseudo</td>
+                                    <td class="cell"><span class="badge @BadgeRangClasse(relation.TypeRelation.Nom)">@relation.TypeRelation.Nom</span></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Detail" asp-route-id="@relation.CitoyenCibleID">Voir</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!--//table-responsive-->
+            </div><!--//app-card-body-->
+        </div><!--//app-card-->
+    </div><!--//tab-pane-->
+
+    <div class="tab-pane fade" id="orders-pending" role="tabpanel" aria-labelledby="orders-pending-tab">
+        <div class="app-card app-card-orders-table mb-5">
+            <div class="app-card-body">
+                <div class="table-responsive">
+                    <table class="table app-table-hover mb-0 text-left">
+                        <thead>
+                            <tr>
+                                <th class="cell">Nom et prénom</th>
+                                <th class="cell">Pseudo</th>
+                                <th class="cell">Type de relation</th>
+                                <th class="cell"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var relation in Model.Relations.Where(x => x.TypeRelation.Nom == "Famille"))
+                            {
+                                <tr>
+                                    <td class="cell"><span class="truncate">@relation.CitoyenCible.Nom @relation.CitoyenCible.Prenom</span></td>
+                                    <td class="cell">@relation.CitoyenCible.Pseudo</td>
+                                    <td class="cell"><span class="badge @BadgeRangClasse(relation.TypeRelation.Nom)">@relation.TypeRelation.Nom</span></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Detail" asp-route-id="@relation.CitoyenCibleID">Voir</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!--//table-responsive-->
+            </div><!--//app-card-body-->
+        </div><!--//app-card-->
+    </div><!--//tab-pane-->
+    <div class="tab-pane fade" id="orders-cancelled" role="tabpanel" aria-labelledby="orders-cancelled-tab">
+        <div class="app-card app-card-orders-table mb-5">
+            <div class="app-card-body">
+                <div class="table-responsive">
+                    <table class="table app-table-hover mb-0 text-left">
+                        <thead>
+                            <tr>
+                                <th class="cell">Nom et prénom</th>
+                                <th class="cell">Pseudo</th>
+                                <th class="cell">Type de relation</th>
+                                <th class="cell"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var relation in Model.Relations.Where(x => x.TypeRelation.Nom == "Ami"))
+                            {
+                                <tr>
+                                    <td class="cell"><span class="truncate">@relation.CitoyenCible.Nom @relation.CitoyenCible.Prenom</span></td>
+                                    <td class="cell">@relation.CitoyenCible.Pseudo</td>
+                                    <td class="cell"><span class="badge @BadgeRangClasse(relation.TypeRelation.Nom)">@relation.TypeRelation.Nom</span></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Detail" asp-route-id="@relation.CitoyenCibleID">Voir</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!--//table-responsive-->
+            </div><!--//app-card-body-->
+        </div><!--//app-card-->
+    </div><!--//tab-pane-->
+    <div class="tab-pane fade" id="demandes" role="tabpanel" aria-labelledby="orders-cancelled-tab">
+        <div class="app-card app-card-orders-table mb-5">
+            <div class="app-card-body">
+                <div class="table-responsive">
+                    <table class="table app-table-hover mb-0 text-left">
+                        <thead>
+                            <tr>
+                                <th class="cell">Nom et prénom</th>
+                                <th class="cell">Pseudo</th>
+                                <th class="cell">Type de relation</th>
+                                <th class="cell"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var relation in Model.InRelation.Where(x => x.TypeRelation.Nom == "Ami"))
+                            {
+                                <tr>
+                                    <td class="cell"><span class="truncate">@relation.Citoyen.Nom @relation.Citoyen.Prenom</span></td>
+                                    <td class="cell">@relation.Citoyen.Pseudo</td>
+                                    <td class="cell"><span class="badge @BadgeRangClasse(relation.TypeRelation.Nom)">@relation.TypeRelation.Nom</span></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Detail" asp-route-id="@relation.Citoyen">Voir</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div><!--//table-responsive-->
+            </div><!--//app-card-body-->
+        </div><!--//app-card-->
+    </div><!--//tab-pane-->
+</div><!--//tab-content-->
