@@ -1,40 +1,42 @@
-﻿let baseUrlApi = "http://localhost:8081";
-let headers = {"content-type": "text/plain;charset=UTF-8"}
+﻿let baseUrlApi = "http://localhost:44369";
 
 function likerCommentaire(idCitoyen, idCommentaire) {
     $.post({
-        url: baseUrlApi + "/voteCommentaire",
-        headers,
-        data: JSON.stringify({
+        url: "/Ressource/LikerCommentaire",
+        data: {
             CitoyenID: idCitoyen,
             CommentaireID: idCommentaire
-        })
+        }
     })
 }
 
 function unlikerCommentaire(idCitoyen, idCommentaire) {
-    $.ajax({
-        method: "DELETE",
-        url: baseUrlApi + "/voteCommentaire/" + idCitoyen + "/" + idCommentaire,
-        headers
+    $.post({
+        url: "/Ressource/UnlikerCommentaire",
+        data: {
+            CitoyenID: idCitoyen,
+            CommentaireID: idCommentaire
+        }
     })
 }
 
 function likerRessource(idCitoyen,idRessource) {
     $.post({
-        url: baseUrlApi + "/voteRessources",
-        headers,
-        data: JSON.stringify({
+        url: "/Ressource/LikerRessource",
+        data: {
             CitoyenID: idCitoyen,
             RessourceID: idRessource
-        })
+        },
+
     })
 }
 
 function unlikerRessource(idCitoyen, idRessource) {
-    $.ajax({
-        method: "DELETE",
-        url: baseUrlApi + "/voteRessources/" + idCitoyen + "/" + idRessource,
-        headers
+    $.post({
+        url: "/Ressource/UnlikerRessource",
+        data: {
+            CitoyenID: idCitoyen,
+            RessourceID: idRessource
+        }
     })
 }

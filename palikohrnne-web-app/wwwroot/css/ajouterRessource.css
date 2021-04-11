@@ -1,10 +1,11 @@
 ﻿.header-form{
-    background-color: forestgreen;
-    color: white;
+    background-color: #51b37f;
+
     padding: 10px;
 }
     .header-form h1 {
         font-size: 1.65em;
+        color: white;
     }
 .body-form{
     background-color: white;

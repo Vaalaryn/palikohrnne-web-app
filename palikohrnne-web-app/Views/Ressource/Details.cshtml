@@ -1,7 +1,7 @@
 ﻿@model Ressource
 @{
     ViewData["Title"] = "Details";
-    int idCitoyenConnected = 1; //TODO: Récupérer le citoyen connecté
+    int idCitoyenConnected = 2; //TODO: Récupérer le citoyen connecté
 
     bool citoyenLikedThisRessource = Model.CitoyenVoted.Where(x => x.ID == idCitoyenConnected).Any();
     int count = 2;

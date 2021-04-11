@@ -1,12 +1,12 @@
 ﻿.categories-header {
-    background-color: forestgreen;
-    color: white;
-    padding: 6px;
+    background-color: #51b37f;
+    padding: 6px 6px 6px 15px;
 }
 
     .categories-header h2 {
         font-size: 1.7em;
         font-weight: bold;
+        color: white !important;
     }
 
 .logo{
@@ -18,14 +18,14 @@
     height: 65px;
     margin: auto 10px auto 0;
     color: white;
-    background-color: black;
+    background-color: #51b37f;
 }
 .categorie {
     display: flex;
     flex-direction: row;
     background-color: white;
     padding: 15px;
-    border-top: 1px solid black;
+    border-top: 1px solid #c8c9cb;
 }
 
 .informations {

@@ -18,7 +18,7 @@ h1.styled{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: forestgreen;
+    background-color: #51b37f;
     color: white;
     font-weight: bold;
     padding: 10px;
@@ -55,3 +55,18 @@ h1.styled{
     flex-direction: column;
     width: 85%;
 }
+
+.validation {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 15px;
+}
+.validation .validation-btn{
+  display: flex;
+  flex-direction: row;
+}
+    .validation .validation-btn input {
+        width: 250px;
+        margin: 20px 10px 20px 10px;
+    }
