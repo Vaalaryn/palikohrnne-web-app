@@ -23,7 +23,7 @@ namespace palikohrnne_web_app.Api
             client.BaseAddress = new Uri("http://localhost:8081/");
             Client = client;
             //TODO: Récupérer le token à la connexion
-            Token = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYWlsIjoidG90bzQzQGdtYWlsLnRvdG8iLCJSYW5nSUQiOjMsImV4cCI6MTYxODAyMjAzOSwib3JpZ19pYXQiOjE2MTc5ODYwMzl9.VbG7Hkz2YVreKGzZTJ_ARbaB7fpvCn9Z3vrZ3b51lGg";
+            Token = @"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJNYWlsIjoiY2l0b3kxQGdtYWlsLnRvdG8iLCJSYW5nSUQiOjQsImV4cCI6MTYxODE0MTU3Mywib3JpZ19pYXQiOjE2MTgxMDU1NzN9.A4wo1kQe9Cgjs8ibdJ6Nfp9S5X7K9eAy5KkY_sCec_g";
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
         }
         //Rangs
