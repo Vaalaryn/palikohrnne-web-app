@@ -310,7 +310,7 @@ namespace palikohrnne_web_app.Controllers
             if (ModelState.IsValid)
             {
                 ressource.Tags = tagsList;
-                Ressource ressourceCreated = await _cubeService.CreateRessource(ressource);
+                Ressource ressourceCreated = await _cubeService.Authorize(User).CreateRessource(ressource);
                 return RedirectToAction("Details", new { id = ressourceCreated.ID });
             }
 
@@ -318,33 +318,34 @@ namespace palikohrnne_web_app.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CommenterRessource(Commentaire commentaire)
         {
-            await _cubeService.CreateCommentaire(commentaire);
+            await _cubeService.Authorize(User).CreateCommentaire(commentaire);
             return RedirectToAction("Details", new { id = commentaire.RessourceID });
         }
 
         [HttpPost]
         public async Task LikerRessource(int CitoyenID, int RessourceID)
         {
-            await _cubeService.LikerRessource(CitoyenID, RessourceID);
+            await _cubeService.Authorize(User).LikerRessource(CitoyenID, RessourceID);
         }
         [HttpPost]
         public async Task<IActionResult> LikerCommentaire(int CitoyenID, int CommentaireID)
         {
-            await _cubeService.LikerCommentaire(CitoyenID, CommentaireID);
+            await _cubeService.Authorize(User).LikerCommentaire(CitoyenID, CommentaireID);
             return Ok();
         }
         [HttpPost]
         public async Task<IActionResult> UnlikerCommentaire(int CitoyenID, int CommentaireID)
         {
-            await _cubeService.DeleteLikeCommentaire(CitoyenID, CommentaireID);
+            await _cubeService.Authorize(User).DeleteLikeCommentaire(CitoyenID, CommentaireID);
             return Ok();
         }
         [HttpPost]
         public async Task<IActionResult> UnlikerRessource(int CitoyenID, int RessourceID)
         {
-            await _cubeService.DeleteLikeRessource(CitoyenID, RessourceID);
+            await _cubeService.Authorize(User).DeleteLikeRessource(CitoyenID, RessourceID);
             return Ok();
         }
     }
