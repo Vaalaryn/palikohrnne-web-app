@@ -1,7 +1,7 @@
 ﻿@model Ressource
 @{
     ViewData["Title"] = "Details";
-    int idCitoyenConnected = 2; //TODO: Récupérer le citoyen connecté
+    int idCitoyenConnected = ViewBag.UserConnectedID;
 
     bool citoyenLikedThisRessource = Model.CitoyenVoted.Where(x => x.ID == idCitoyenConnected).Any();
     int count = 2;
@@ -103,6 +103,6 @@
     <div class="reponse">
         <h3>Commenter cette ressource</h3>
         <textarea name="Contenu" required id="editor"></textarea>
-        <input type="submit" value="Envoyer votre commentaire" class="btn btn-primary mt-3">
+        <input type="submit" value="Envoyer votre commentaire" class="btn btn-primary text-light mt-3">
     </div>
 </form>

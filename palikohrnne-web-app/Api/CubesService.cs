@@ -233,8 +233,6 @@ namespace palikohrnne_web_app.Api
             var ressourceJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
             {
                 ressource.Titre,
-                ressource.Vues,
-                ressource.Votes,
                 ressource.ValidationAdmin,
                 ressource.Contenu,
                 ressource.TypeRelationID,
@@ -404,6 +402,18 @@ namespace palikohrnne_web_app.Api
 
         //Votes
         #region
+        public async Task VoirRessource(int idCitoyen, int idRessource)
+        {
+            var voirRessourceJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                CitoyenID = idCitoyen,
+                RessourceID = idRessource
+            }),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PostAsync("/api/citoyens/views", voirRessourceJson);
+        }
         /// <summary>
         /// Ajoute un vote à la ressource cible
         /// </summary>

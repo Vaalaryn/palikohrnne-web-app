@@ -129,6 +129,16 @@ namespace palikohrnne_web_app.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                int userId = Int32.Parse(((ClaimsIdentity)User.Identity).GetSpecificClaim("ID"));
+                await _cubeService.Authorize(User).VoirRessource(userId,id);
+                ViewBag.UserConnectedID = userId;
+            }
+            else
+            {
+                ViewBag.UserConnectedID = 0;
+            }
             return View(await _cubeService.GetRessourceById(id));
         }
 

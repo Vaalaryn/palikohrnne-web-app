@@ -15,6 +15,7 @@ namespace palikohrnne_web_app.Models
         public string Titre { get; set; }
         public int Vues { get; set; }
         public int Votes { get; set; }
+        public int CommentairesCount { get; set; }
         public string Contenu { get; set; }
         public bool? ValidationAdmin { get; set; }
         public int TypeRessourceID { get; set; }
