@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using palikohrnne_web_app.Api;
+using palikohrnne_web_app.Extensions;
 using palikohrnne_web_app.Models;
 using System;
 using System.Collections.Generic;
@@ -19,17 +20,31 @@ namespace palikohrnne_web_app.Controllers
         {
             _cubesService = cubesService;
         }
-
-        public async Task<IActionResult> Detail(int id)
+        [Authorize]
+        public async Task<IActionResult> Profil(int id)
         {
-            var citoyen = await _cubesService.GetCitoyenById(id);
+            var citoyen = await _cubesService.Authorize(User).GetCitoyenById(id);
+            var userConnected = Int32.Parse(User.FindFirst("ID").Value);
+            if (userConnected != citoyen.ID)
+            {
+                var relationsCible = await _cubesService.Authorize(User).GetRelationCitoyenIn(userConnected);
+                ViewBag.DemandeRelation = relationsCible.Where(x => 
+                x.CitoyenID == citoyen.ID &&
+                x.CitoyenCibleID == userConnected && 
+                !x.Approbation.HasValue).Any();
+                if(ViewBag.DemandeRelation == true)
+                {
+                    ViewBag.TypeRelationId = relationsCible.First().TypeRelationID;
+                }
+                
+            }
             return View(citoyen);
         }
 
         [Authorize]
         public async Task<IActionResult> ProfilPerso(int id)
         {
-            var citoyen = await _cubesService.GetCitoyenById(id);
+            var citoyen = await _cubesService.Authorize(User).GetCitoyenById(id);
             return View(citoyen);
         }
 
@@ -38,7 +53,7 @@ namespace palikohrnne_web_app.Controllers
         public async Task<IActionResult> SelfDetailAsync(Citoyen citoyen)
         {
             var selfId = Int32.Parse(User.FindFirst("ID").Value);
-            var citoyenConnected = await _cubesService.GetCitoyenById(selfId);
+            var citoyenConnected = await _cubesService.Authorize(User).GetCitoyenById(selfId);
 
             Citoyen modifiedCitoyen = new()
             {

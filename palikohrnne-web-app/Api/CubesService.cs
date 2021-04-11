@@ -281,6 +281,23 @@ namespace palikohrnne_web_app.Api
             return JsonConvert.DeserializeObject<TypeRelation>(typeRelation);
         }
 
+        public async Task UpdateRelation(RelationCitoyen relationCitoyen)
+        {
+            var relationCitoyenJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
+            {
+                relationCitoyen.CitoyenCibleID,
+                relationCitoyen.CitoyenID,
+                relationCitoyen.TypeRelationID,
+                relationCitoyen.Approbation
+            }),
+                Encoding.UTF8,
+                "application/json");
+
+            using var httpResponse = await Client.PatchAsync("/api/relations", relationCitoyenJson);
+            httpResponse.EnsureSuccessStatusCode();
+        }
+
+
         public async Task CreateTypeRelation(TypeRelation typeRelation)
         {
             var typeRelationJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(typeRelation),
@@ -330,7 +347,8 @@ namespace palikohrnne_web_app.Api
             {
                 relationCitoyen.CitoyenID,
                 relationCitoyen.CitoyenCibleID,
-                relationCitoyen.TypeRelationID
+                relationCitoyen.TypeRelationID,
+                relationCitoyen.Approbation
             }),
                 Encoding.UTF8,
                 "application/json");

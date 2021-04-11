@@ -10,3 +10,12 @@
     width: 40px !important;
     padding: 5px;
 }
+.select2-selection{
+    display: flex;
+    align-items: center;
+    height: 40px !important;
+}
+.select2-selection__arrow, select2-selection__rendered {
+    margin-top: 5px;
+    display: block;
+}

@@ -46,7 +46,14 @@
     <a class="flex-sm-fill text-sm-center nav-link" id="orders-paid-tab" data-toggle="tab" href="#orders-paid" role="tab" aria-controls="orders-paid" aria-selected="false">Collègues</a>
     <a class="flex-sm-fill text-sm-center nav-link" id="orders-pending-tab" data-toggle="tab" href="#orders-pending" role="tab" aria-controls="orders-pending" aria-selected="false">Famille</a>
     <a class="flex-sm-fill text-sm-center nav-link" id="orders-cancelled-tab" data-toggle="tab" href="#orders-cancelled" role="tab" aria-controls="orders-cancelled" aria-selected="false">Amis</a>
-    <a class="flex-sm-fill text-sm-center nav-link" id="demandes-tab" data-toggle="tab" href="#demandes" role="tab" aria-controls="orders-cancelled" aria-selected="false">Demandes de relation</a>
+    <a class="flex-sm-fill text-sm-center nav-link" id="demandes-tab" data-toggle="tab" href="#demandes" role="tab" aria-controls="orders-cancelled" aria-selected="false">
+        Demandes de relation
+        @if (Model.InRelation.Where(x => !x.Approbation.HasValue).Any())
+        {
+            <span class="badge bg-danger">@Model.InRelation.Where(x => !x.Approbation.HasValue).Count()</span>
+        }
+
+    </a>
 </nav>
 
 
@@ -71,7 +78,7 @@
                                     <td class="cell"><span class="truncate">@relation.CitoyenCible.Nom @relation.CitoyenCible.Prenom</span></td>
                                     <td class="cell">@relation.CitoyenCible.Pseudo</td>
                                     <td class="cell"><span class="badge @BadgeRangClasse(relation.TypeRelation.Nom)">@relation.TypeRelation.Nom</span></td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Detail" asp-route-id="@relation.CitoyenCibleID">Voir</a></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Profil" asp-route-id="@relation.CitoyenCibleID">Voir</a></td>
                                 </tr>
                             }
                         </tbody>
@@ -102,7 +109,7 @@
                                     <td class="cell"><span class="truncate">@relation.CitoyenCible.Nom @relation.CitoyenCible.Prenom</span></td>
                                     <td class="cell">@relation.CitoyenCible.Pseudo</td>
                                     <td class="cell"><span class="badge @BadgeRangClasse(relation.TypeRelation.Nom)">@relation.TypeRelation.Nom</span></td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Detail" asp-route-id="@relation.CitoyenCibleID">Voir</a></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Profil" asp-route-id="@relation.CitoyenCibleID">Voir</a></td>
                                 </tr>
                             }
                         </tbody>
@@ -132,7 +139,7 @@
                                     <td class="cell"><span class="truncate">@relation.CitoyenCible.Nom @relation.CitoyenCible.Prenom</span></td>
                                     <td class="cell">@relation.CitoyenCible.Pseudo</td>
                                     <td class="cell"><span class="badge @BadgeRangClasse(relation.TypeRelation.Nom)">@relation.TypeRelation.Nom</span></td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Detail" asp-route-id="@relation.CitoyenCibleID">Voir</a></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Profil" asp-route-id="@relation.CitoyenCibleID">Voir</a></td>
                                 </tr>
                             }
                         </tbody>
@@ -161,7 +168,7 @@
                                     <td class="cell"><span class="truncate">@relation.CitoyenCible.Nom @relation.CitoyenCible.Prenom</span></td>
                                     <td class="cell">@relation.CitoyenCible.Pseudo</td>
                                     <td class="cell"><span class="badge @BadgeRangClasse(relation.TypeRelation.Nom)">@relation.TypeRelation.Nom</span></td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Detail" asp-route-id="@relation.CitoyenCibleID">Voir</a></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Profil" asp-route-id="@relation.CitoyenCibleID">Voir</a></td>
                                 </tr>
                             }
                         </tbody>
@@ -184,13 +191,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var relation in Model.InRelation.Where(x => x.TypeRelation.Nom == "Ami"))
+                            @foreach (var relation in Model.InRelation.Where(x => !x.Approbation.HasValue))
                             {
                                 <tr>
                                     <td class="cell"><span class="truncate">@relation.Citoyen.Nom @relation.Citoyen.Prenom</span></td>
                                     <td class="cell">@relation.Citoyen.Pseudo</td>
                                     <td class="cell"><span class="badge @BadgeRangClasse(relation.TypeRelation.Nom)">@relation.TypeRelation.Nom</span></td>
-                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Detail" asp-route-id="@relation.Citoyen">Voir</a></td>
+                                    <td class="cell"><a class="btn-sm app-btn-secondary" asp-controller="Profil" asp-action="Profil" asp-route-id="@relation.Citoyen.ID">Voir</a></td>
                                 </tr>
                             }
                         </tbody>
