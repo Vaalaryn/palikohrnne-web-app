@@ -44,6 +44,17 @@ namespace palikohrnne_web_app
                     builder => builder.AllowAnyOrigin());
             });
             System.Diagnostics.Debug.WriteLine("http://localhost:46161");
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromHours(5);
+
+                options.LoginPath = "/Login/Login";
+                options.AccessDeniedPath = "/Login/AccessDenied";
+                options.SlidingExpiration = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

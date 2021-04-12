@@ -53,7 +53,7 @@
                                     <ul class="dropdown-menu" aria-labelledby="user-dropdown-toggle">
                                         <li><a class="dropdown-item" asp-route-id="@claim.GetSpecificClaim("ID")" asp-action="ProfilPerso" asp-controller="Profil">Profil de @claim.GetSpecificClaim("Pseudo")</a></li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" asp-action="Logout" asp-controller="Login">Log Out</a></li>
+                                        <li><a class="dropdown-item" asp-action="Logout" asp-controller="Account">Log Out</a></li>
                                     </ul>
                                 </div><!--//app-user-dropdown-->
                             </div><!--//app-utilities-->
@@ -61,8 +61,8 @@
                         else
                         {
                             <div class="app-utilities col-auto">
-                                <a asp-action="Login" asp-controller="Login">Se connecter</a> |
-                                <a asp-action="Register" asp-controller="Login">Inscription</a>
+                                <a asp-action="Login" asp-controller="Account">Se connecter</a> |
+                                <a asp-action="Register" asp-controller="Account">Inscription</a>
                             </div>
                         }
 

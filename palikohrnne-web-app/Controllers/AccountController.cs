@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace palikohrnne_web_app.Controllers
 {
-    public class LoginController : Controller
+    public class AccountController : Controller
     {
 
         private readonly CubesService _cubesService;
@@ -32,8 +32,8 @@ namespace palikohrnne_web_app.Controllers
             public string Pseudo { get; set; }
         }
 
-        private readonly ILogger<LoginController> _logger;
-        public LoginController(CubesService cubesService, ILogger<LoginController> logger)
+        private readonly ILogger<AccountController> _logger;
+        public AccountController(CubesService cubesService, ILogger<AccountController> logger)
         {
             _cubesService = cubesService;
             _logger = logger;
@@ -71,7 +71,7 @@ namespace palikohrnne_web_app.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LoginAsync(LoginModel login)
+        public async Task<IActionResult> LoginAsync(LoginModel login, string ReturnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -129,8 +129,12 @@ namespace palikohrnne_web_app.Controllers
                 _logger.LogInformation("User {Email} logged in at {Time}.",
                     user.EMail, DateTime.UtcNow);
 
-                return RedirectToAction("Index");
-                //return View();
+                if (!String.IsNullOrEmpty(ReturnUrl))
+                {
+                    return Redirect(ReturnUrl);
+                }
+                
+                return RedirectToAction("Index","Home");
             }
             
 
