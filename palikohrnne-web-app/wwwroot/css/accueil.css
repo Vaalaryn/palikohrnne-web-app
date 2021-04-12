@@ -30,8 +30,9 @@
 
 .informations {
     display: flex;
+    justify-content: center;
     flex-direction: column;
-    width: 80%;
+    width: 65%;
 }
     .categorie h3, a {
         font-size: 1.1em;
@@ -48,5 +49,5 @@
 .last-message{
     display: flex;
     flex-direction: column;
-    width: 10%;
+    width: 25%;
 }
