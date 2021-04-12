@@ -340,7 +340,19 @@ namespace palikohrnne_web_app.Api
             var relationJson = JObject.Parse(text).SelectToken("data").ToString();
             return JsonConvert.DeserializeObject<IEnumerable<RelationCitoyen>>(relationJson);
         }
+        public async Task<IEnumerable<RelationCitoyen>> GetAllRelations()
+        {
+            var response = await Client.GetAsync(
+                "/api/allrelations");
 
+            response.EnsureSuccessStatusCode();
+
+            using var responseStream = await response.Content.ReadAsStreamAsync();
+            StreamReader reader = new(responseStream);
+            string text = reader.ReadToEnd();
+            var relationJson = JObject.Parse(text).SelectToken("data").ToString();
+            return JsonConvert.DeserializeObject<IEnumerable<RelationCitoyen>>(relationJson);
+        }
         public async Task AjouterRelation(RelationCitoyen relationCitoyen)
         {
             var typeRelationJson = new StringContent(System.Text.Json.JsonSerializer.Serialize(new
@@ -417,7 +429,7 @@ namespace palikohrnne_web_app.Api
         public async Task<IEnumerable<Commentaire>> GetAllCommentaires()
         {
             var response = await Client.GetAsync(
-                "/commentaires");
+                "/api/commentaires");
 
             response.EnsureSuccessStatusCode();
 
@@ -431,7 +443,7 @@ namespace palikohrnne_web_app.Api
         public async Task<Commentaire> GetCommentaireById(int id)
         {
             var response = await Client.GetAsync(
-                "/commentaires/" + id);
+                "/api/commentaires/" + id);
 
             response.EnsureSuccessStatusCode();
 

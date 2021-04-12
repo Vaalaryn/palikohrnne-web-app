@@ -25,8 +25,24 @@ namespace palikohrnne_web_app.Controllers
 
         public IActionResult Index()
         {
-            
+
             return View();
+        }
+
+        public async Task<IActionResult> Statistiques()
+        {
+            _cubesService.Authorize(User);
+            var ressources = await _cubesService.GetAllRessources();
+            StatistiqueModel model = new StatistiqueModel
+            {
+                Citoyens = await _cubesService.GetAllCitoyens(),
+                Ressources = ressources,
+                RelationCitoyens = await _cubesService.GetAllRelations(),
+                Commentaires = await _cubesService.GetAllCommentaires(),
+                CitoyenVoteds = ressources.SelectMany(x => x.CitoyenVoted),
+            };
+
+            return View(model);
         }
 
         public async Task<IActionResult> ListeRessource(string order, FiltresModelRessources filtres)
