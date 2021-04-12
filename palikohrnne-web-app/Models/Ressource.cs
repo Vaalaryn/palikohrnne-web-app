@@ -24,6 +24,7 @@ namespace palikohrnne_web_app.Models
         public int CitoyenID { get; set; }
 
         //Relations
+        public TypeRelation TypeRelation { get; set; }
         public List<Commentaire> Commentaires { get; set; }
         public List<Citoyen> CitoyenVoted { get; set; }
         public List<Tag> Tags { get; set; }

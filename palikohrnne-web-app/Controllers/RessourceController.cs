@@ -20,9 +20,19 @@ namespace palikohrnne_web_app.Controllers
         }
         public async Task<IActionResult> Index(int id, string order, FiltresModelRessources filtres)
         {
+            int usrId = Int32.Parse(((ClaimsIdentity)User.Identity).GetSpecificClaim("ID"));
+            IEnumerable<RelationCitoyen> relationsUsrConnected = await _cubeService.Authorize(User).GetRelation(usrId);
             IEnumerable<Ressource> ressources = await _cubeService.GetAllRessources();
             IEnumerable<TypeRelation> typesRelations = await _cubeService.GetAllTypeRelations();
             IEnumerable<Tag> tags = await _cubeService.GetAllTags();
+
+            //On filtre les relations
+            ressources = ressources.Where(
+                x =>
+                    relationsUsrConnected.Where(rel => rel.TypeRelationID == x.TypeRelationID && x.TypeRelationID != 4)
+                    .Select(rel => rel.CitoyenCibleID)
+                    .Contains(x.CitoyenID) || x.TypeRelationID == 4
+                );
 
             if (string.IsNullOrEmpty(filtres.AnswersFilter))
             {
@@ -75,7 +85,8 @@ namespace palikohrnne_web_app.Controllers
             //Filtre cercle social
             if ((filtres.TypeRelationID != null) && (filtres.TypeRelationID.Any()))
             {
-                ressources = ressources.Where(x => filtres.TypeRelationID.Contains(x.TypeRelationID));
+                ressources = ressources
+                    .Where(x => filtres.TypeRelationID.Contains(x.TypeRelationID));
             }
             else
             {
@@ -83,7 +94,9 @@ namespace palikohrnne_web_app.Controllers
             //Filtre tags
             if ((filtres.TagsID != null) && (filtres.TagsID.Any()))
             {
-                ressources = ressources.Where(x => x.Tags.Select(x => x.ID).Where(x => filtres.TagsID.Contains(x)).Any());
+                ressources = ressources
+                    .Where(x => x.Tags.Select(x => x.ID)
+                    .Where(x => filtres.TagsID.Contains(x)).Any());
             }
             //FIN Filtres -------------------------------------
 
