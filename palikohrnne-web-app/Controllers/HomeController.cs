@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using palikohrnne_web_app.Api;
 using palikohrnne_web_app.Models;
@@ -18,7 +19,6 @@ namespace palikohrnne_web_app.Controllers
         {
             _cubesService = cubesService;
         }
-
         public async Task<IActionResult> Index()
         {
             return View(await _cubesService.GetAllCategoriesWithStats());

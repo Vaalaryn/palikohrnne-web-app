@@ -44,7 +44,7 @@
             <div class="message-left-pannel">
                 <span>@Model.Citoyen.Pseudo</span>
                 <span>Date d'inscription: @Model.Citoyen.CreatedAt.ToString("MMMM yyyy")</span>
-                <span>Messages: 200 </span>
+               
                 <div data-id="@Model.ID"
                      data-type-like="ressource"
                      class="button heart @(citoyenLikedThisRessource ? "active" : "")">
@@ -78,7 +78,7 @@
                 <div class="message-left-pannel">
                     <span>@commentaire.Citoyen.Pseudo</span>
                     <span>Date d'inscription: @commentaire.Citoyen.CreatedAt.ToString("MMMM yyyy")</span>
-                    <span>Messages: 200 </span>
+                    
                     <div data-id="@commentaire.ID"
                          data-type-like="commentaire"
                          class="button heart @(citoyenLikedThisComment ? "active" : "")">

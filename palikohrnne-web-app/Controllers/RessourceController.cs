@@ -341,24 +341,36 @@ namespace palikohrnne_web_app.Controllers
         [HttpPost]
         public async Task LikerRessource(int CitoyenID, int RessourceID)
         {
-            await _cubeService.Authorize(User).LikerRessource(CitoyenID, RessourceID);
+            var claim = ((ClaimsIdentity)User.Identity);
+            int idUser = Int32.Parse(claim.GetSpecificClaim("ID"));
+
+            await _cubeService.Authorize(User).LikerRessource(idUser, RessourceID);
         }
         [HttpPost]
         public async Task<IActionResult> LikerCommentaire(int CitoyenID, int CommentaireID)
         {
-            await _cubeService.Authorize(User).LikerCommentaire(CitoyenID, CommentaireID);
+            var claim = ((ClaimsIdentity)User.Identity);
+            int idUser = Int32.Parse(claim.GetSpecificClaim("ID"));
+
+            await _cubeService.Authorize(User).LikerCommentaire(idUser, CommentaireID);
             return Ok();
         }
         [HttpPost]
         public async Task<IActionResult> UnlikerCommentaire(int CitoyenID, int CommentaireID)
         {
-            await _cubeService.Authorize(User).DeleteLikeCommentaire(CitoyenID, CommentaireID);
+            var claim = ((ClaimsIdentity)User.Identity);
+            int idUser = Int32.Parse(claim.GetSpecificClaim("ID"));
+
+            await _cubeService.Authorize(User).DeleteLikeCommentaire(idUser, CommentaireID);
             return Ok();
         }
         [HttpPost]
         public async Task<IActionResult> UnlikerRessource(int CitoyenID, int RessourceID)
         {
-            await _cubeService.Authorize(User).DeleteLikeRessource(CitoyenID, RessourceID);
+            var claim = ((ClaimsIdentity)User.Identity);
+            int idUser = Int32.Parse(claim.GetSpecificClaim("ID"));
+
+            await _cubeService.Authorize(User).DeleteLikeRessource(idUser, RessourceID);
             return Ok();
         }
     }

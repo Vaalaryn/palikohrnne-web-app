@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace palikohrnne_web_app.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="Modérateur,Administrateur,Super-administrateur")]
     public class BackOfficeController : Controller
     {
         private readonly CubesService _cubesService;
@@ -20,13 +20,6 @@ namespace palikohrnne_web_app.Controllers
         public BackOfficeController(CubesService cubesService)
         {
             _cubesService = cubesService;
-        }
-
-
-        public IActionResult Index()
-        {
-
-            return View();
         }
 
         public async Task<IActionResult> Statistiques()

@@ -160,9 +160,8 @@
                             <span>Réponses: @ressource.CommentairesCount</span>
                             <span>Affichages: @ressource.Vues</span>
                         </div>
-
                     </td>
-                    <td class="last-message">
+                    <td class="last-message" style="width:400px;">
                         @ressource.Commentaires.LastOrDefault()?.CreatedAt.ToLocalTime().Humanize()
                         <span style="color:forestgreen">@ressource.Commentaires.LastOrDefault()?.CreatedAt.ToString("hh:mm")</span>
                     </td>
