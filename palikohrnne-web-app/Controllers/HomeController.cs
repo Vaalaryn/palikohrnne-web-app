@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using palikohrnne_web_app.Api;
 using palikohrnne_web_app.Models;
 using System;
 using System.Collections.Generic;
@@ -11,27 +13,15 @@ namespace palikohrnne_web_app.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly CubesService _cubesService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(CubesService cubesService)
         {
-            _logger = logger;
+            _cubesService = cubesService;
         }
-
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(await _cubesService.GetAllCategoriesWithStats());
         }
     }
 }

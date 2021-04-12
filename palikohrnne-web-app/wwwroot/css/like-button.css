@@ -1,0 +1,40 @@
+﻿.button {
+    background: none;
+    cursor: pointer;
+    transition: background 0.5s ease;
+}
+
+    .button:hover {
+    }
+
+.active.heart:before, .active.heart:after {
+    background: red !important;
+}
+
+.heart {
+    position: relative;
+    width: 25px;
+    height: 15px;
+    transition: background 0.5s ease;
+}
+
+    .heart:before,
+    .heart:after {
+        transition: background 0.5s ease;
+        position: absolute;
+        content: "";
+        left: 13px;
+        top: 0;
+        width: 13px;
+        height: 19px;
+        background: dimgrey;
+        border-radius: 50px 50px 0 0;
+        transform: rotate(-45deg);
+        transform-origin: 0 100%;
+    }
+
+    .heart:after {
+        left: 0;
+        transform: rotate(45deg);
+        transform-origin: 100% 100%;
+    }

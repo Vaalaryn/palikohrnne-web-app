@@ -1,0 +1,173 @@
+﻿@model ListeRessourceModel
+@{
+    ViewData["Title"] = "Index";
+    var idCategorie = ViewContext.RouteData.Values["id"];
+}
+@section Styles{
+    <link href="~/lib/select2/css/select2.css" rel="stylesheet" />
+    <link href="~/css/ressource-list.css" rel="stylesheet" />
+}
+
+@section Scripts{
+    <script src="~/lib/select2/js/select2.js"></script>
+    <script src="~/js/filters.js"></script>
+}
+<div style="padding: 0 50px 0 50px">
+    <div class="toolbar">
+        <a asp-action="PublierRessource"
+           asp-route-id="@idCategorie"
+           class="btn btn-success text-light">
+            Publier une ressource dans cette catégorie
+        </a>
+        <span class="ml-5">Méthode de tri : </span>
+        <div class="btn-group ml-3" role="group" aria-label="Basic outlined example">
+            <a asp-action="Index"
+               asp-route-id="@idCategorie"
+               asp-route-order="recents"
+               class="btn btn-outline-success @(ViewBag.Order == "recents" || String.IsNullOrEmpty(ViewBag.Order)? "active" : "")">
+                Les plus récent
+            </a>
+            <a asp-action="Index"
+               asp-route-id="@idCategorie"
+               asp-route-order="reponsesDesc"
+               class="btn btn-outline-success @(ViewBag.Order == "reponsesDesc"? "active" : "")">
+                Le plus de réponses
+            </a>
+            <a asp-action="Index"
+               asp-route-id="@idCategorie"
+               asp-route-order="reponsesAsc"
+               class="btn btn-outline-success @(ViewBag.Order == "reponsesAsc"? "active" : "")">
+                Le moins de réponses
+            </a>
+        </div>
+        <div class="filtrer float-right">
+            <button id="showFilter" class="btn btn-success text-light"><i class="fa fa-cog mr-2"></i>Filtrer</button>
+        </div>
+        <div class="filtres-container" style="display: none;">
+            <form method="get" asp-action="Index">
+                <input type="hidden" name="order" value="@ViewBag.Order" />
+                <div class="filtres-body">
+                    <div class="filtre-section">
+                        <h4>Filtrer par</h4>
+                        <div class="filtre-elem">
+                            <span>Réponses :</span>
+                            <div>
+                                <div>
+                                    <input asp-for="Filtres.AnswersFilter" type="radio" value="all-answers" />
+                                    <label>Peu importe</label>
+                                </div>
+                                <div>
+                                    <input asp-for="Filtres.AnswersFilter" type="radio" value="no-answers" />
+                                    <label>Sans réponse</label>
+                                </div>
+                                <div>
+                                    <input asp-for="Filtres.AnswersFilter" type="radio" value="only-answers" />
+                                    <label>Avec une réponse mini</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="filtre-elem">
+                            <span>Ancienneté :</span>
+                            <div>
+                                <select class="form-control" asp-for="Filtres.AgeMax">
+                                    <option value="">--------</option>
+                                    <option value="lastWeek">Cette semaine</option>
+                                    <option value="lastMonth">Ce mois-ci</option>
+                                    <option value="lastYear">Cette année</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filtre-section">
+                        <h4>Cercle social</h4>
+                        <div class="filtre-elem">
+                            <span>Afficher les ressources :</span>
+                            <div>
+                                @foreach (TypeRelation typeRelation in ViewBag.TypesRelations)
+                                {
+                                    string checkedAttr = "";
+                                    if ((Model.Filtres.TypeRelationID != null) && (Model.Filtres.TypeRelationID.Contains(typeRelation.ID)))
+                                    {
+                                        checkedAttr = "checked";
+                                    }
+                                    <div>
+                                        <input @checkedAttr
+                                               type="checkbox"
+                                               name="filtres.TypeRelationID"
+                                               value="@typeRelation.ID" />
+                                        <label asp-for="Filtres.TypeRelationID">@typeRelation.Nom</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filtre-section">
+                        <h4>Tags</h4>
+                        <div class="filtre-elem">
+                            <span>Afficher les ressources avec les tags suivants :</span>
+                            <div>
+                                <select multiple asp-items="ViewBag.Tags" id="select2Tags" asp-for="Filtres.TagsID"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="filtres-footer">
+                    <input class="btn btn-success text-light" type="submit" value="Appliquer les filtres" />
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="posts-container">
+        <table>
+            <thead class="table-header">
+                <tr>
+                    <th></th>
+                    <th>TITRE/AUTEUR</th>
+                    <th>DIFFUSION</th>
+                    <th>RÉPONSES/AFFICHAGES</th>
+                    <th class="last-message">DERNIER MESSAGE</th>
+                </tr>
+            </thead>
+            <tbody class="table-body">
+                @foreach (var ressource in Model.Ressources)
+                {
+                <tr>
+                    <td class="logo">
+                        <i class="fa fa-file"></i>
+                    </td>
+                    <td class="titre-td">
+                        <div class="titre">
+                            <span><a asp-action="Details" asp-route-id="@ressource.ID">@ressource.Titre</a></span>
+                            <span class="auteur">
+                                @ressource.Citoyen.Pseudo,
+                                @ressource.CreatedAt.ToString("dd/MM/yyyy, HH:mm")
+                            </span>
+                            <div class="tags">
+                                @foreach (var tag in ressource.Tags)
+                                {
+                                    <span class="badge bg-success text-light">@tag.Nom</span>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span>
+                            @ressource.TypeRelation.Nom
+                        </span>
+                    </td>
+                    <td class="stats-td">
+                        <div class="stats">
+                            <span>Réponses: @ressource.CommentairesCount</span>
+                            <span>Affichages: @ressource.Vues</span>
+                        </div>
+                    </td>
+                    <td class="last-message" style="width:400px;">
+                        @ressource.Commentaires.LastOrDefault()?.CreatedAt.ToLocalTime().Humanize()
+                        <span style="color:forestgreen">@ressource.Commentaires.LastOrDefault()?.CreatedAt.ToString("hh:mm")</span>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

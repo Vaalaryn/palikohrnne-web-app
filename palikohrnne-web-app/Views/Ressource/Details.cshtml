@@ -1,0 +1,108 @@
+﻿@model Ressource
+@{
+    ViewData["Title"] = "Details";
+    int idCitoyenConnected = ViewBag.UserConnectedID;
+
+    bool citoyenLikedThisRessource = Model.CitoyenVoted.Where(x => x.ID == idCitoyenConnected).Any();
+    int count = 2;
+}
+@section Styles{
+    <link href="~/css/ressource-list.css" rel="stylesheet" />
+    <link href="~/css/like-button.css" rel="stylesheet" />
+    <link href="~/css/ressource.css" rel="stylesheet" />
+    <link href="~/lib/simditor/styles/simditor.css" rel="stylesheet" />
+}
+@section Scripts{
+    <script src="~/lib/simditor/lib/module.js"></script>
+    <script src="~/lib/simditor/lib/hotkeys.js"></script>
+    <script src="~/lib/simditor/lib/uploader.js"></script>
+    <script src="~/lib/simditor/lib/simditor.js"></script>
+    <script src="~/js/like-button.js"></script>
+    <script>
+        $(() => {
+            var editor = new Simditor({
+                textarea: $('#editor')
+                //optional options
+            });
+        })
+
+    </script>
+}
+<h1 class="styled">@Model.Titre</h1>
+<div class="messages-wraper">
+    <div class="message-container">
+        <div class="message-header">
+            <span>
+                <i class="fa fa-file mr-3"></i>
+                @Model.CreatedAt.ToString("dd/MM/yyyy, HH:mm")
+            </span>
+            <span>
+                #1
+            </span>
+        </div>
+        <div class="message-body">
+            <div class="message-left-pannel">
+                <span>@Model.Citoyen.Pseudo</span>
+                <span>Date d'inscription: @Model.Citoyen.CreatedAt.ToString("MMMM yyyy")</span>
+               
+                <div data-id="@Model.ID"
+                     data-type-like="ressource"
+                     class="button heart @(citoyenLikedThisRessource ? "active" : "")">
+                </div>
+                <span class="nb-likes" style="text-align: center;">@Model.CitoyenVoted.Count</span>
+            </div>
+            <div class="message-content">
+                <h2 class="styled">@Model.Titre</h2>
+                <p>
+                    @Html.Raw(Model.Contenu)
+                </p>
+            </div>
+        </div>
+    </div>
+    @foreach (var commentaire in Model.Commentaires)
+    {
+        bool citoyenLikedThisComment = commentaire.CitoyenVoted.Where(x => x.ID == idCitoyenConnected).Any();
+
+        <div class="message-container">
+            <div class="message-header">
+                <span>
+                    <i class="fa fa-file mr-3"></i>
+                    @commentaire.CreatedAt.ToString("dd/MM/yyyy, HH:mm")
+                </span>
+                <span>
+                    #@count
+                </span>
+            </div>
+
+            <div class="message-body">
+                <div class="message-left-pannel">
+                    <span>@commentaire.Citoyen.Pseudo</span>
+                    <span>Date d'inscription: @commentaire.Citoyen.CreatedAt.ToString("MMMM yyyy")</span>
+                    
+                    <div data-id="@commentaire.ID"
+                         data-type-like="commentaire"
+                         class="button heart @(citoyenLikedThisComment ? "active" : "")">
+                    </div>
+                    <span class="nb-likes" style="text-align: center;">@commentaire.CitoyenVoted.Count</span>
+                </div>
+                <div class="message-content">
+                    <h2 class="styled">@Model.Titre</h2>
+                    <p>
+                        @Html.Raw(commentaire.Contenu.Trim())
+                    </p>
+                </div>
+            </div>
+        </div>
+        count++;
+    }
+
+</div>
+<form method="post" asp-action="CommenterRessource">
+    <input type="hidden" name="RessourceID" value="@Model.ID">
+    <input type="hidden" name="CitoyenID" value="@idCitoyenConnected">
+    <div class="reponse">
+        <h3>Commenter cette ressource</h3>
+        <textarea name="Contenu" required id="editor"></textarea>
+        <input type="submit" value="Envoyer votre commentaire" class="btn btn-primary text-light mt-3">
+    </div>
+</form>

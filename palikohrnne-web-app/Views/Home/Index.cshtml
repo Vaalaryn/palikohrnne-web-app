@@ -1,8 +1,52 @@
-﻿@{
+﻿@model List<CategorieWithStats>
+@{
     ViewData["Title"] = "Home Page";
 }
+@section Styles {
+    <link href="~/css/accueil.css" rel="stylesheet" />
+}
+<div class="container-fluid">
+    <div class="categories-container">
+        <div class="categories-header">
+            <h2>Palikhorne</h2>
+        </div>
+        <div class="categories-body">
+            @foreach (var categorie in Model)
+            {
+            <div class="categorie">
+                <div class="logo rounded-circle">
+                    <i class="far fa-sticky-note"></i>
+                </div>
+                <div class="informations">
+                    <h3><a asp-action="Index" asp-controller="Ressource" asp-route-id="@categorie.Categorie.ID">
+                        @categorie.Categorie.Nom
+                        </a>
+                    </h3>
+                    <div class="description">
+                        @categorie.Categorie.Description
+                    </div>
+                </div>
+                <div class="stats">
+                    <span>@categorie.TotalRessources<i class="fa fa-sticky-note ml-2"></i></span>
+                    <span>@categorie.TotalCommentaires<i class="fa fa-comment ml-2"></i></span>
+                </div>
+                @if (categorie.LastRessource.ID != 0)
+                {
+                    <div class="last-message">
+                        <span><a href="#">@categorie.LastRessource.Titre</a></span>
+                        <span>@categorie.LastRessource.CreatedAt.ToLocalTime().Humanize()</span>
+                    </div>
+                }
+                else
+                {
+                    <div class="last-message">
+                        <span>Pas de ressources</span>
+                        <span></span>
+                    </div>
+                }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+            </div>
+            }
+        </div>
+    </div>
 </div>

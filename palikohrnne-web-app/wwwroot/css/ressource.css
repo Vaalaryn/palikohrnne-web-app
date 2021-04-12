@@ -1,0 +1,72 @@
+﻿h1.styled, h2.styled, h3.styled {
+    border-bottom: 1px solid grey;
+    color: grey;
+    font-weight: 400;
+}
+h1.styled{
+    margin-bottom: 20px;
+}
+.messages-wraper{
+    margin: 50px 0 50px 0;
+}
+.message-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 25px;
+}
+.message-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: #51b37f;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+}
+.message-body{
+    display:flex;
+    flex-direction: row;
+    background-color: white;
+    padding: 15px;
+}
+.message-left-pannel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 15%;
+}
+.message-left-pannel span:not(:first-child){
+     border-bottom: 1px solid lightgray;
+     display: block;
+     width: 80%;
+     padding: 10px;
+}
+    .message-left-pannel span:first-child {
+        color: green;
+        font-weight: bold;
+        margin-bottom: 25px;
+    }
+
+    .message-left-pannel .heart{
+        margin-top: 20px;
+    }
+.message-content{
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+}
+
+.validation {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 15px;
+}
+.validation .validation-btn{
+  display: flex;
+  flex-direction: row;
+}
+    .validation .validation-btn input {
+        width: 250px;
+        margin: 20px 10px 20px 10px;
+    }

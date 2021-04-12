@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Ressource>
+@{
+    ViewData["Title"] = "ValidationRessourceList";
+    Layout = "~/Views/Shared/_LayoutBackOffice.cshtml";
+}
+
+
+
+<div class="row g-3 mb-4 align-items-center justify-content-between">
+    <div class="col-auto">
+        <h1 class="app-page-title mb-0">Ressources en attente de validation</h1>
+    </div>
+</div><!--//row-->
+
+
+
+<div class="tab-content" id="orders-table-tab-content">
+    <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+        <div class="app-card app-card-orders-table shadow-sm mb-5">
+            <div class="app-card-body">
+                <div class="table-responsive">
+                    <table class="table app-table-hover mb-0 text-left">
+                        <thead>
+                            <tr>
+                                <th class="cell">Numéro</th>
+                                <th class="cell">Titre</th>
+                                <th class="cell">Citoyen</th>
+                                <th class="cell">Date de création</th>
+                                <th class="cell">Catégorie</th>
+                                <th class="cell"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ressource in Model)
+                            {
+                                <tr>
+                                    <td class="cell">#@ressource.ID</td>
+                                    <td class="cell"><span class="truncate">@ressource.Titre</span></td>
+                                    <td class="cell">@ressource.Citoyen.Pseudo</td>
+                                    <td class="cell"><span>@ressource.CreatedAt.ToString("dd MMM")</span><span class="note">@ressource.CreatedAt.ToString("HH:mm")</span></td>
+                                    <td class="cell">@ressource.Categorie.Nom</td>
+                                    <td class="cell">
+                                        <a class="btn-sm app-btn-secondary"
+                                           asp-route-id="@ressource.ID"
+                                           asp-action="DetailsRessourceNonValide">
+                                            Voir
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div><!--//app-card-body-->
+            </div><!--//app-card-->
+        </div><!--//tab-pane-->
+    </div><!--//tab-content-->
+</div>
